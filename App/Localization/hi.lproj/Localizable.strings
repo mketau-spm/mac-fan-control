@@ -1,0 +1,37 @@
+/* FanCurve — hi */
+
+"unit.rpm" = "RPM";
+"help.curve" = "बिंदु खींचें · जोड़ने या हटाने के लिए डबल-क्लिक करें";
+"help.toggleOn" = "फ़ैन कर्व से नियंत्रित हैं";
+"help.toggleOff" = "फ़ैन macOS से नियंत्रित हैं";
+"button.allow" = "फ़ैन नियंत्रण की अनुमति दें";
+"button.allowing" = "अनुमति दी जा रही है…";
+"notice.failsafe" = "बहुत गर्म — फ़ैन पूरी गति पर";
+"error.smc" = "आपके Mac ने आदेश अस्वीकार किया: %@। फिर से कोशिश करने के लिए स्विच बंद करके चालू करें।";
+"help.revert" = "बदलाव रद्द करें";
+"help.saveAsOwn" = "अपनी प्रोफ़ाइल के रूप में सहेजें";
+"help.save" = "सहेजें";
+"menu.saveAsNew" = "नई के रूप में सहेजें…";
+"menu.duplicate" = "अपनी प्रोफ़ाइल के रूप में कॉपी करें…";
+"menu.rename" = "नाम बदलें…";
+"menu.delete" = "प्रोफ़ाइल हटाएँ";
+"menu.launchAtLogin" = "लॉगिन पर खोलें";
+"menu.quit" = "FanCurve बंद करें";
+"name.new" = "नया नाम";
+"name.profile" = "प्रोफ़ाइल का नाम";
+"button.cancel" = "रद्द करें";
+"button.ok" = "ठीक है";
+"preset.quiet" = "शांत";
+"preset.balanced" = "संतुलित";
+"preset.cool" = "ठंडक";
+"preset.cold" = "ठंडा";
+"preset.veryCold" = "बहुत ठंडा";
+"profile.numbered" = "मेरी प्रोफ़ाइल %ld";
+"error.saveProfiles" = "प्रोफ़ाइल सहेजी नहीं जा सकीं: %@";
+"error.launchAtLogin" = "लॉगिन पर खोलें: %@";
+"error.missingFiles" = "ऐप में फ़ैन नियंत्रण की फ़ाइलें नहीं हैं";
+"installer.prompt" = "फ़ैन नियंत्रित करने के लिए FanCurve को आपकी अनुमति चाहिए।";
+"error.noResponse" = "फ़ैन नियंत्रण जवाब नहीं दे रहा";
+"error.badReply" = "फ़ैन नियंत्रण से अनपेक्षित जवाब";
+"a11y.curve" = "फ़ैन कर्व";
+"curve.failsafe" = "सुरक्षा";

@@ -1,0 +1,37 @@
+/* FanCurve — tr */
+
+"unit.rpm" = "dev/dk";
+"help.curve" = "Noktaları sürükleyin · eklemek veya silmek için çift tıklayın";
+"help.toggleOn" = "Fanları eğri denetliyor";
+"help.toggleOff" = "Fanları macOS denetliyor";
+"button.allow" = "Fan denetimine izin ver";
+"button.allowing" = "İzin veriliyor…";
+"notice.failsafe" = "Çok sıcak — fanlar tam hızda";
+"error.smc" = "Mac’iniz komutu reddetti: %@. Yeniden denemek için anahtarı kapatıp açın.";
+"help.revert" = "Değişikliklerden vazgeç";
+"help.saveAsOwn" = "Kendi profiliniz olarak kaydedin";
+"help.save" = "Kaydet";
+"menu.saveAsNew" = "Yeni Olarak Kaydet…";
+"menu.duplicate" = "Kendi Profilin Olarak Çoğalt…";
+"menu.rename" = "Yeniden Adlandır…";
+"menu.delete" = "Profili Sil";
+"menu.launchAtLogin" = "Girişte Aç";
+"menu.quit" = "FanCurve’den Çık";
+"name.new" = "Yeni ad";
+"name.profile" = "Profil adı";
+"button.cancel" = "Vazgeç";
+"button.ok" = "Tamam";
+"preset.quiet" = "Sessiz";
+"preset.balanced" = "Dengeli";
+"preset.cool" = "Serin";
+"preset.cold" = "Soğuk";
+"preset.veryCold" = "Çok Soğuk";
+"profile.numbered" = "Profilim %ld";
+"error.saveProfiles" = "Profiller kaydedilemedi: %@";
+"error.launchAtLogin" = "Girişte Aç: %@";
+"error.missingFiles" = "Uygulamada fan denetimi dosyaları eksik";
+"installer.prompt" = "FanCurve’ün fanları denetlemek için izninize ihtiyacı var.";
+"error.noResponse" = "Fan denetimi yanıt vermiyor";
+"error.badReply" = "Fan denetiminden beklenmeyen yanıt";
+"a11y.curve" = "Fan eğrisi";
+"curve.failsafe" = "koruma";

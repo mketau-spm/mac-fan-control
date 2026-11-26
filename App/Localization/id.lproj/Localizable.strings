@@ -1,0 +1,37 @@
+/* FanCurve — id */
+
+"unit.rpm" = "rpm";
+"help.curve" = "Seret titik · klik dua kali untuk menambah atau menghapus";
+"help.toggleOn" = "Kurva mengontrol kipas";
+"help.toggleOff" = "macOS mengontrol kipas";
+"button.allow" = "Izinkan kontrol kipas";
+"button.allowing" = "Mengizinkan…";
+"notice.failsafe" = "Terlalu panas — kipas pada kecepatan penuh";
+"error.smc" = "Mac Anda menolak perintah: %@. Matikan lalu nyalakan sakelar untuk mencoba lagi.";
+"help.revert" = "Buang perubahan";
+"help.saveAsOwn" = "Simpan sebagai profil sendiri";
+"help.save" = "Simpan";
+"menu.saveAsNew" = "Simpan sebagai Baru…";
+"menu.duplicate" = "Duplikat sebagai Milik Sendiri…";
+"menu.rename" = "Ubah Nama…";
+"menu.delete" = "Hapus Profil";
+"menu.launchAtLogin" = "Buka saat Masuk";
+"menu.quit" = "Keluar dari FanCurve";
+"name.new" = "Nama baru";
+"name.profile" = "Nama profil";
+"button.cancel" = "Batal";
+"button.ok" = "OK";
+"preset.quiet" = "Senyap";
+"preset.balanced" = "Seimbang";
+"preset.cool" = "Sejuk";
+"preset.cold" = "Dingin";
+"preset.veryCold" = "Sangat Dingin";
+"profile.numbered" = "Profil Saya %ld";
+"error.saveProfiles" = "Tidak dapat menyimpan profil: %@";
+"error.launchAtLogin" = "Buka saat Masuk: %@";
+"error.missingFiles" = "File kontrol kipas tidak ada di app";
+"installer.prompt" = "FanCurve memerlukan izin Anda untuk mengontrol kipas.";
+"error.noResponse" = "Kontrol kipas tidak merespons";
+"error.badReply" = "Balasan tak terduga dari kontrol kipas";
+"a11y.curve" = "Kurva kipas";
+"curve.failsafe" = "proteksi";

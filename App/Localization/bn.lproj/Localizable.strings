@@ -1,0 +1,37 @@
+/* FanCurve — bn */
+
+"unit.rpm" = "RPM";
+"help.curve" = "বিন্দু টেনে আনুন · যোগ বা মুছতে ডাবল-ক্লিক করুন";
+"help.toggleOn" = "কার্ভ ফ্যান নিয়ন্ত্রণ করছে";
+"help.toggleOff" = "macOS ফ্যান নিয়ন্ত্রণ করছে";
+"button.allow" = "ফ্যান নিয়ন্ত্রণের অনুমতি দিন";
+"button.allowing" = "অনুমতি দেওয়া হচ্ছে…";
+"notice.failsafe" = "অতিরিক্ত গরম — ফ্যান সর্বোচ্চ গতিতে";
+"error.smc" = "আপনার Mac কমান্ডটি প্রত্যাখ্যান করেছে: %@। আবার চেষ্টা করতে সুইচটি বন্ধ করে আবার চালু করুন।";
+"help.revert" = "পরিবর্তন বাতিল করুন";
+"help.saveAsOwn" = "নিজের প্রোফাইল হিসেবে সংরক্ষণ করুন";
+"help.save" = "সংরক্ষণ করুন";
+"menu.saveAsNew" = "নতুন হিসেবে সংরক্ষণ করুন…";
+"menu.duplicate" = "নিজের প্রোফাইল হিসেবে অনুলিপি করুন…";
+"menu.rename" = "নাম পরিবর্তন করুন…";
+"menu.delete" = "প্রোফাইল মুছুন";
+"menu.launchAtLogin" = "লগইনের সময় খুলুন";
+"menu.quit" = "FanCurve বন্ধ করুন";
+"name.new" = "নতুন নাম";
+"name.profile" = "প্রোফাইলের নাম";
+"button.cancel" = "বাতিল";
+"button.ok" = "ঠিক আছে";
+"preset.quiet" = "নীরব";
+"preset.balanced" = "ভারসাম্যপূর্ণ";
+"preset.cool" = "শীতল";
+"preset.cold" = "ঠান্ডা";
+"preset.veryCold" = "খুব ঠান্ডা";
+"profile.numbered" = "আমার প্রোফাইল %ld";
+"error.saveProfiles" = "প্রোফাইল সংরক্ষণ করা যায়নি: %@";
+"error.launchAtLogin" = "লগইনের সময় খুলুন: %@";
+"error.missingFiles" = "অ্যাপে ফ্যান নিয়ন্ত্রণের ফাইল নেই";
+"installer.prompt" = "ফ্যান নিয়ন্ত্রণ করতে FanCurve-এর আপনার অনুমতি প্রয়োজন।";
+"error.noResponse" = "ফ্যান নিয়ন্ত্রণ সাড়া দিচ্ছে না";
+"error.badReply" = "ফ্যান নিয়ন্ত্রণ থেকে অপ্রত্যাশিত উত্তর";
+"a11y.curve" = "ফ্যান কার্ভ";
+"curve.failsafe" = "সুরক্ষা";

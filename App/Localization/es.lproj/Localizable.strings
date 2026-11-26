@@ -1,0 +1,37 @@
+/* FanCurve — es */
+
+"unit.rpm" = "rpm";
+"help.curve" = "Arrastra los puntos · doble clic para añadir o eliminar";
+"help.toggleOn" = "La curva controla los ventiladores";
+"help.toggleOff" = "macOS controla los ventiladores";
+"button.allow" = "Permitir el control de ventiladores";
+"button.allowing" = "Permitiendo…";
+"notice.failsafe" = "Demasiado calor: ventiladores al máximo";
+"error.smc" = "Tu Mac rechazó el comando: %@. Apaga y enciende el interruptor para reintentarlo.";
+"help.revert" = "Descartar cambios";
+"help.saveAsOwn" = "Guardar como perfil propio";
+"help.save" = "Guardar";
+"menu.saveAsNew" = "Guardar como nuevo…";
+"menu.duplicate" = "Duplicar como propio…";
+"menu.rename" = "Renombrar…";
+"menu.delete" = "Eliminar perfil";
+"menu.launchAtLogin" = "Abrir al iniciar sesión";
+"menu.quit" = "Salir de FanCurve";
+"name.new" = "Nuevo nombre";
+"name.profile" = "Nombre del perfil";
+"button.cancel" = "Cancelar";
+"button.ok" = "Aceptar";
+"preset.quiet" = "Silencioso";
+"preset.balanced" = "Equilibrado";
+"preset.cool" = "Fresco";
+"preset.cold" = "Frío";
+"preset.veryCold" = "Muy frío";
+"profile.numbered" = "Mi perfil %ld";
+"error.saveProfiles" = "No se pudieron guardar los perfiles: %@";
+"error.launchAtLogin" = "Abrir al iniciar sesión: %@";
+"error.missingFiles" = "Faltan archivos del control de ventiladores en la app";
+"installer.prompt" = "FanCurve necesita tu permiso para controlar los ventiladores.";
+"error.noResponse" = "El control de ventiladores no responde";
+"error.badReply" = "Respuesta inesperada del control de ventiladores";
+"a11y.curve" = "Curva de ventiladores";
+"curve.failsafe" = "seguridad";

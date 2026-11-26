@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleIdentifier</key><string>com.fancurve.app</string>
+  <key>CFBundleName</key><string>FanCurve</string>
+  <key>CFBundleDisplayName</key><string>FanCurve</string>
+  <key>CFBundleExecutable</key><string>FanCurve</string>
+  <key>CFBundleIconFile</key><string>AppIcon</string>
+  <key>CFBundlePackageType</key><string>APPL</string>
+  <key>CFBundleShortVersionString</key><string>1.0</string>
+  <key>CFBundleVersion</key><string>1</string>
+  <key>CFBundleDevelopmentRegion</key><string>en</string>
+  <key>CFBundleLocalizations</key>
+  <array><string>en</string><string>zh-Hans</string><string>hi</string><string>es</string><string>fr</string><string>ar</string><string>bn</string><string>pt</string><string>ru</string><string>ur</string><string>id</string><string>de</string><string>ja</string><string>tr</string><string>ko</string></array>
+  <key>CFBundleAllowMixedLocalizations</key><true/>
+  <key>LSMinimumSystemVersion</key><string>14.0</string>
+  <key>LSApplicationCategoryType</key><string>public.app-category.utilities</string>
+  <key>LSUIElement</key><true/>
+  <key>NSHumanReadableCopyright</key><string>FanCurve</string>
+</dict>
+</plist>

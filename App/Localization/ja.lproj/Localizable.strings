@@ -1,0 +1,37 @@
+/* FanCurve — ja */
+
+"unit.rpm" = "rpm";
+"help.curve" = "ポイントをドラッグ · ダブルクリックで追加/削除";
+"help.toggleOn" = "カーブでファンを制御中";
+"help.toggleOff" = "macOS がファンを制御中";
+"button.allow" = "ファンの制御を許可";
+"button.allowing" = "許可しています…";
+"notice.failsafe" = "高温のためファンを最大回転にしています";
+"error.smc" = "Mac がコマンドを拒否しました: %@。スイッチをオフにしてからオンにすると再試行します。";
+"help.revert" = "変更を破棄";
+"help.saveAsOwn" = "自分のプロファイルとして保存";
+"help.save" = "保存";
+"menu.saveAsNew" = "新規として保存…";
+"menu.duplicate" = "自分用に複製…";
+"menu.rename" = "名称変更…";
+"menu.delete" = "プロファイルを削除";
+"menu.launchAtLogin" = "ログイン時に開く";
+"menu.quit" = "FanCurve を終了";
+"name.new" = "新しい名前";
+"name.profile" = "プロファイル名";
+"button.cancel" = "キャンセル";
+"button.ok" = "OK";
+"preset.quiet" = "静音";
+"preset.balanced" = "バランス";
+"preset.cool" = "涼しめ";
+"preset.cold" = "冷却";
+"preset.veryCold" = "強力冷却";
+"profile.numbered" = "マイプロファイル %ld";
+"error.saveProfiles" = "プロファイルを保存できませんでした: %@";
+"error.launchAtLogin" = "ログイン時に開く: %@";
+"error.missingFiles" = "App にファン制御用のファイルがありません";
+"installer.prompt" = "FanCurve がファンを制御するには許可が必要です。";
+"error.noResponse" = "ファン制御が応答しません";
+"error.badReply" = "ファン制御から予期しない応答がありました";
+"a11y.curve" = "ファンカーブ";
+"curve.failsafe" = "保護";

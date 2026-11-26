@@ -1,0 +1,37 @@
+/* FanCurve — ru */
+
+"unit.rpm" = "об/мин";
+"help.curve" = "Тяните точки · двойной клик — добавить или удалить";
+"help.toggleOn" = "Вентиляторами управляет кривая";
+"help.toggleOff" = "Вентиляторами управляет macOS";
+"button.allow" = "Разрешить управление вентиляторами";
+"button.allowing" = "Разрешаю…";
+"notice.failsafe" = "Слишком горячо — вентиляторы на максимуме";
+"error.smc" = "Mac не принял команду: %@. Выключите и включите тумблер, чтобы повторить.";
+"help.revert" = "Отменить изменения";
+"help.saveAsOwn" = "Сохранить как свой профиль";
+"help.save" = "Сохранить";
+"menu.saveAsNew" = "Сохранить как новый…";
+"menu.duplicate" = "Дублировать как свой…";
+"menu.rename" = "Переименовать…";
+"menu.delete" = "Удалить профиль";
+"menu.launchAtLogin" = "Запускать при входе";
+"menu.quit" = "Выйти из FanCurve";
+"name.new" = "Новое название";
+"name.profile" = "Название профиля";
+"button.cancel" = "Отмена";
+"button.ok" = "OK";
+"preset.quiet" = "Тихий";
+"preset.balanced" = "Сбалансированный";
+"preset.cool" = "Прохладный";
+"preset.cold" = "Холодный";
+"preset.veryCold" = "Очень холодный";
+"profile.numbered" = "Мой профиль %ld";
+"error.saveProfiles" = "Не удалось сохранить профили: %@";
+"error.launchAtLogin" = "Запуск при входе: %@";
+"error.missingFiles" = "В приложении нет файлов управления вентиляторами";
+"installer.prompt" = "FanCurve просит разрешение управлять вентиляторами.";
+"error.noResponse" = "Управление вентиляторами не отвечает";
+"error.badReply" = "Неожиданный ответ управления вентиляторами";
+"a11y.curve" = "Кривая вентиляторов";
+"curve.failsafe" = "защита";

@@ -1,0 +1,37 @@
+/* FanCurve — zh-Hans */
+
+"unit.rpm" = "转/分";
+"help.curve" = "拖动控制点 · 双击添加或删除";
+"help.toggleOn" = "由曲线控制风扇";
+"help.toggleOff" = "由 macOS 控制风扇";
+"button.allow" = "允许控制风扇";
+"button.allowing" = "正在授权…";
+"notice.failsafe" = "温度过高——风扇已全速运行";
+"error.smc" = "Mac 拒绝了该命令：%@。请关闭再打开开关以重试。";
+"help.revert" = "放弃更改";
+"help.saveAsOwn" = "存储为自定义配置";
+"help.save" = "存储";
+"menu.saveAsNew" = "存储为新配置…";
+"menu.duplicate" = "复制为自定义配置…";
+"menu.rename" = "重新命名…";
+"menu.delete" = "删除配置";
+"menu.launchAtLogin" = "登录时打开";
+"menu.quit" = "退出 FanCurve";
+"name.new" = "新名称";
+"name.profile" = "配置名称";
+"button.cancel" = "取消";
+"button.ok" = "好";
+"preset.quiet" = "安静";
+"preset.balanced" = "均衡";
+"preset.cool" = "凉爽";
+"preset.cold" = "冷";
+"preset.veryCold" = "极冷";
+"profile.numbered" = "我的配置 %ld";
+"error.saveProfiles" = "无法存储配置：%@";
+"error.launchAtLogin" = "登录时打开：%@";
+"error.missingFiles" = "应用中缺少风扇控制文件";
+"installer.prompt" = "FanCurve 需要你的授权才能控制风扇。";
+"error.noResponse" = "风扇控制无响应";
+"error.badReply" = "风扇控制返回了意外的响应";
+"a11y.curve" = "风扇曲线";
+"curve.failsafe" = "保护";

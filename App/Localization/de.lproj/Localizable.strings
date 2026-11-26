@@ -1,0 +1,37 @@
+/* FanCurve — de */
+
+"unit.rpm" = "U/min";
+"help.curve" = "Punkte ziehen · Doppelklick zum Hinzufügen oder Entfernen";
+"help.toggleOn" = "Die Kurve steuert die Lüfter";
+"help.toggleOff" = "macOS steuert die Lüfter";
+"button.allow" = "Lüftersteuerung erlauben";
+"button.allowing" = "Wird erlaubt …";
+"notice.failsafe" = "Zu heiß – Lüfter auf voller Leistung";
+"error.smc" = "Dein Mac hat den Befehl abgelehnt: %@. Schalte den Schalter aus und wieder ein, um es erneut zu versuchen.";
+"help.revert" = "Änderungen verwerfen";
+"help.saveAsOwn" = "Als eigenes Profil sichern";
+"help.save" = "Sichern";
+"menu.saveAsNew" = "Als neues Profil sichern …";
+"menu.duplicate" = "Als eigenes duplizieren …";
+"menu.rename" = "Umbenennen …";
+"menu.delete" = "Profil löschen";
+"menu.launchAtLogin" = "Bei Anmeldung öffnen";
+"menu.quit" = "FanCurve beenden";
+"name.new" = "Neuer Name";
+"name.profile" = "Profilname";
+"button.cancel" = "Abbrechen";
+"button.ok" = "OK";
+"preset.quiet" = "Leise";
+"preset.balanced" = "Ausgewogen";
+"preset.cool" = "Kühl";
+"preset.cold" = "Kalt";
+"preset.veryCold" = "Sehr kalt";
+"profile.numbered" = "Mein Profil %ld";
+"error.saveProfiles" = "Profile konnten nicht gesichert werden: %@";
+"error.launchAtLogin" = "Bei Anmeldung öffnen: %@";
+"error.missingFiles" = "Dateien für die Lüftersteuerung fehlen in der App";
+"installer.prompt" = "FanCurve benötigt deine Erlaubnis, um die Lüfter zu steuern.";
+"error.noResponse" = "Die Lüftersteuerung antwortet nicht";
+"error.badReply" = "Unerwartete Antwort der Lüftersteuerung";
+"a11y.curve" = "Lüfterkurve";
+"curve.failsafe" = "Schutz";

@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build, test and sign (ad-hoc)
+        run: scripts/build.sh
+
+      - name: Package app
+        run: ditto -c -k --keepParent build/FanCurve.app build/FanCurve.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FanCurve
+          path: build/FanCurve.zip

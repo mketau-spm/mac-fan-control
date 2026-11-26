@@ -1,0 +1,37 @@
+/* FanCurve — pt */
+
+"unit.rpm" = "rpm";
+"help.curve" = "Arraste os pontos · clique duas vezes para adicionar ou remover";
+"help.toggleOn" = "A curva controla as ventoinhas";
+"help.toggleOff" = "O macOS controla as ventoinhas";
+"button.allow" = "Permitir controle das ventoinhas";
+"button.allowing" = "Permitindo…";
+"notice.failsafe" = "Muito quente — ventoinhas no máximo";
+"error.smc" = "Seu Mac recusou o comando: %@. Desligue e ligue o botão para tentar novamente.";
+"help.revert" = "Descartar alterações";
+"help.saveAsOwn" = "Salvar como perfil próprio";
+"help.save" = "Salvar";
+"menu.saveAsNew" = "Salvar como novo…";
+"menu.duplicate" = "Duplicar como próprio…";
+"menu.rename" = "Renomear…";
+"menu.delete" = "Apagar perfil";
+"menu.launchAtLogin" = "Abrir ao iniciar sessão";
+"menu.quit" = "Encerrar FanCurve";
+"name.new" = "Novo nome";
+"name.profile" = "Nome do perfil";
+"button.cancel" = "Cancelar";
+"button.ok" = "OK";
+"preset.quiet" = "Silencioso";
+"preset.balanced" = "Equilibrado";
+"preset.cool" = "Fresco";
+"preset.cold" = "Frio";
+"preset.veryCold" = "Muito frio";
+"profile.numbered" = "Meu perfil %ld";
+"error.saveProfiles" = "Não foi possível salvar os perfis: %@";
+"error.launchAtLogin" = "Abrir ao iniciar sessão: %@";
+"error.missingFiles" = "Arquivos do controle das ventoinhas ausentes no app";
+"installer.prompt" = "O FanCurve precisa da sua permissão para controlar as ventoinhas.";
+"error.noResponse" = "O controle das ventoinhas não está respondendo";
+"error.badReply" = "Resposta inesperada do controle das ventoinhas";
+"a11y.curve" = "Curva das ventoinhas";
+"curve.failsafe" = "proteção";

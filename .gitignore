@@ -1,0 +1,13 @@
+# build output
+build/
+*.app
+*.dSYM
+
+# first prototype (Python + web page), kept locally only
+legacy/
+
+# macOS / editors
+.DS_Store
+.vscode/
+.idea/
+*.swp

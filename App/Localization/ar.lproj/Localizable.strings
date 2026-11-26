@@ -1,0 +1,37 @@
+/* FanCurve — ar */
+
+"unit.rpm" = "دورة/د";
+"help.curve" = "اسحب النقاط · انقر مرتين للإضافة أو الحذف";
+"help.toggleOn" = "المنحنى يتحكم في المراوح";
+"help.toggleOff" = "macOS يتحكم في المراوح";
+"button.allow" = "السماح بالتحكم في المراوح";
+"button.allowing" = "جارٍ السماح…";
+"notice.failsafe" = "الحرارة مرتفعة جدًا — المراوح بأقصى سرعة";
+"error.smc" = "رفض جهاز Mac الأمر: %@. أوقف المفتاح ثم شغّله لإعادة المحاولة.";
+"help.revert" = "تجاهل التغييرات";
+"help.saveAsOwn" = "حفظ كملف تعريف خاص بك";
+"help.save" = "حفظ";
+"menu.saveAsNew" = "حفظ كملف جديد…";
+"menu.duplicate" = "تكرار كملف خاص بك…";
+"menu.rename" = "إعادة التسمية…";
+"menu.delete" = "حذف ملف التعريف";
+"menu.launchAtLogin" = "فتح عند تسجيل الدخول";
+"menu.quit" = "إنهاء FanCurve";
+"name.new" = "اسم جديد";
+"name.profile" = "اسم ملف التعريف";
+"button.cancel" = "إلغاء";
+"button.ok" = "موافق";
+"preset.quiet" = "هادئ";
+"preset.balanced" = "متوازن";
+"preset.cool" = "منعش";
+"preset.cold" = "بارد";
+"preset.veryCold" = "بارد جدًا";
+"profile.numbered" = "ملفي %ld";
+"error.saveProfiles" = "تعذّر حفظ ملفات التعريف: %@";
+"error.launchAtLogin" = "فتح عند تسجيل الدخول: %@";
+"error.missingFiles" = "ملفات التحكم في المراوح مفقودة من التطبيق";
+"installer.prompt" = "يحتاج FanCurve إلى إذنك للتحكم في المراوح.";
+"error.noResponse" = "التحكم في المراوح لا يستجيب";
+"error.badReply" = "رد غير متوقع من التحكم في المراوح";
+"a11y.curve" = "منحنى المراوح";
+"curve.failsafe" = "حماية";

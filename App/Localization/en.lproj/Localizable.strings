@@ -1,0 +1,37 @@
+/* FanCurve — en */
+
+"unit.rpm" = "rpm";
+"help.curve" = "Drag points · double-click to add or remove";
+"help.toggleOn" = "The curve controls the fans";
+"help.toggleOff" = "macOS controls the fans";
+"button.allow" = "Allow fan control";
+"button.allowing" = "Allowing…";
+"notice.failsafe" = "Too hot — fans at full speed";
+"error.smc" = "Your Mac refused the command: %@. Turn the switch off and on to retry.";
+"help.revert" = "Discard changes";
+"help.saveAsOwn" = "Save as your own profile";
+"help.save" = "Save";
+"menu.saveAsNew" = "Save as New…";
+"menu.duplicate" = "Duplicate as Your Own…";
+"menu.rename" = "Rename…";
+"menu.delete" = "Delete Profile";
+"menu.launchAtLogin" = "Open at Login";
+"menu.quit" = "Quit FanCurve";
+"name.new" = "New name";
+"name.profile" = "Profile name";
+"button.cancel" = "Cancel";
+"button.ok" = "OK";
+"preset.quiet" = "Quiet";
+"preset.balanced" = "Balanced";
+"preset.cool" = "Cool";
+"preset.cold" = "Cold";
+"preset.veryCold" = "Very Cold";
+"profile.numbered" = "My Profile %ld";
+"error.saveProfiles" = "Couldn’t save profiles: %@";
+"error.launchAtLogin" = "Open at Login: %@";
+"error.missingFiles" = "Fan control files are missing from the app";
+"installer.prompt" = "FanCurve needs your permission to control the fans.";
+"error.noResponse" = "Fan control isn’t responding";
+"error.badReply" = "Unexpected reply from fan control";
+"a11y.curve" = "Fan curve";
+"curve.failsafe" = "safety";

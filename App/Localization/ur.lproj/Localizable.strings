@@ -1,0 +1,37 @@
+/* FanCurve — ur */
+
+"unit.rpm" = "RPM";
+"help.curve" = "پوائنٹس گھسیٹیں · شامل یا حذف کرنے کے لیے ڈبل کلک کریں";
+"help.toggleOn" = "پنکھے کرو سے کنٹرول ہو رہے ہیں";
+"help.toggleOff" = "پنکھے macOS سے کنٹرول ہو رہے ہیں";
+"button.allow" = "پنکھوں کے کنٹرول کی اجازت دیں";
+"button.allowing" = "اجازت دی جا رہی ہے…";
+"notice.failsafe" = "بہت گرم — پنکھے پوری رفتار پر";
+"error.smc" = "آپ کے Mac نے کمانڈ مسترد کر دی: %@۔ دوبارہ کوشش کے لیے سوئچ بند کر کے چالو کریں۔";
+"help.revert" = "تبدیلیاں رد کریں";
+"help.saveAsOwn" = "اپنی پروفائل کے طور پر محفوظ کریں";
+"help.save" = "محفوظ کریں";
+"menu.saveAsNew" = "نئی کے طور پر محفوظ کریں…";
+"menu.duplicate" = "اپنی پروفائل کے طور پر نقل بنائیں…";
+"menu.rename" = "نام تبدیل کریں…";
+"menu.delete" = "پروفائل حذف کریں";
+"menu.launchAtLogin" = "لاگ ان پر کھولیں";
+"menu.quit" = "FanCurve بند کریں";
+"name.new" = "نیا نام";
+"name.profile" = "پروفائل کا نام";
+"button.cancel" = "منسوخ کریں";
+"button.ok" = "ٹھیک ہے";
+"preset.quiet" = "خاموش";
+"preset.balanced" = "متوازن";
+"preset.cool" = "ٹھنڈک";
+"preset.cold" = "ٹھنڈا";
+"preset.veryCold" = "بہت ٹھنڈا";
+"profile.numbered" = "میری پروفائل %ld";
+"error.saveProfiles" = "پروفائلز محفوظ نہیں ہو سکیں: %@";
+"error.launchAtLogin" = "لاگ ان پر کھولیں: %@";
+"error.missingFiles" = "ایپ میں پنکھوں کے کنٹرول کی فائلیں موجود نہیں";
+"installer.prompt" = "پنکھوں کو کنٹرول کرنے کے لیے FanCurve کو آپ کی اجازت درکار ہے۔";
+"error.noResponse" = "پنکھوں کا کنٹرول جواب نہیں دے رہا";
+"error.badReply" = "پنکھوں کے کنٹرول سے غیر متوقع جواب";
+"a11y.curve" = "پنکھوں کا کرو";
+"curve.failsafe" = "تحفظ";

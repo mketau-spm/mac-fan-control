@@ -1,0 +1,37 @@
+/* FanCurve — fr */
+
+"unit.rpm" = "tr/min";
+"help.curve" = "Faites glisser les points · double-cliquez pour en ajouter ou en supprimer";
+"help.toggleOn" = "La courbe contrôle les ventilateurs";
+"help.toggleOff" = "macOS contrôle les ventilateurs";
+"button.allow" = "Autoriser le contrôle des ventilateurs";
+"button.allowing" = "Autorisation…";
+"notice.failsafe" = "Trop chaud — ventilateurs à pleine vitesse";
+"error.smc" = "Votre Mac a refusé la commande : %@. Désactivez puis réactivez l’interrupteur pour réessayer.";
+"help.revert" = "Annuler les modifications";
+"help.saveAsOwn" = "Enregistrer comme profil personnel";
+"help.save" = "Enregistrer";
+"menu.saveAsNew" = "Enregistrer comme nouveau…";
+"menu.duplicate" = "Dupliquer comme profil personnel…";
+"menu.rename" = "Renommer…";
+"menu.delete" = "Supprimer le profil";
+"menu.launchAtLogin" = "Ouvrir à la connexion";
+"menu.quit" = "Quitter FanCurve";
+"name.new" = "Nouveau nom";
+"name.profile" = "Nom du profil";
+"button.cancel" = "Annuler";
+"button.ok" = "OK";
+"preset.quiet" = "Silencieux";
+"preset.balanced" = "Équilibré";
+"preset.cool" = "Frais";
+"preset.cold" = "Froid";
+"preset.veryCold" = "Très froid";
+"profile.numbered" = "Mon profil %ld";
+"error.saveProfiles" = "Impossible d’enregistrer les profils : %@";
+"error.launchAtLogin" = "Ouvrir à la connexion : %@";
+"error.missingFiles" = "Les fichiers de contrôle des ventilateurs sont absents de l’app";
+"installer.prompt" = "FanCurve a besoin de votre autorisation pour contrôler les ventilateurs.";
+"error.noResponse" = "Le contrôle des ventilateurs ne répond pas";
+"error.badReply" = "Réponse inattendue du contrôle des ventilateurs";
+"a11y.curve" = "Courbe des ventilateurs";
+"curve.failsafe" = "sécurité";
