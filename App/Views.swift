@@ -8,7 +8,9 @@ struct MenuBarLabel: View {
     var body: some View {
         HStack(spacing: 3) {
             Image(systemName: model.state?.mode == "failsafe" ? "fan.badge.automatic" : "fan")
-            Text(verbatim: model.menuTitle).monospacedDigit()
+            if model.showMenuTemp {
+                Text(verbatim: model.menuTitle).monospacedDigit()
+            }
         }
     }
 }
@@ -136,21 +138,19 @@ struct PopoverView: View {
             }
 
             Menu {
-                if model.isDirty && !model.selected.builtin {
-                    Button(L("menu.saveAsNew")) { startNaming(.saveAs) }
-                } else if !model.isDirty {
-                    Button(L("menu.duplicate")) { startNaming(.saveAs) }
-                }
+                // New profiles come from editing the curve and pressing ✓; this menu only manages them.
                 if !model.selected.builtin {
+                    if model.isDirty { Button(L("menu.saveAsNew")) { startNaming(.saveAs) } }
                     Button(L("menu.rename")) { startNaming(.rename) }
                     Button(L("menu.delete"), role: .destructive) { model.delete(model.selectedID) }
+                    Divider()
                 }
-                Divider()
+                Toggle(L("menu.showTemp"), isOn: $model.showMenuTemp)
                 Toggle(L("menu.launchAtLogin"), isOn: Binding(get: { model.launchAtLogin }, set: { model.launchAtLogin = $0 }))
                 Divider()
                 Button(L("menu.quit")) { NSApp.terminate(nil) }.keyboardShortcut("q")
             } label: {
-                Image(systemName: "ellipsis")
+                Image(systemName: "gearshape")
             }
             .menuStyle(.borderlessButton)
             .menuIndicator(.hidden)

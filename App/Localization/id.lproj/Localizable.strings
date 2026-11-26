@@ -12,9 +12,9 @@
 "help.saveAsOwn" = "Simpan sebagai profil sendiri";
 "help.save" = "Simpan";
 "menu.saveAsNew" = "Simpan sebagai Baru…";
-"menu.duplicate" = "Duplikat sebagai Milik Sendiri…";
 "menu.rename" = "Ubah Nama…";
 "menu.delete" = "Hapus Profil";
+"menu.showTemp" = "Tampilkan Suhu di Bar Menu";
 "menu.launchAtLogin" = "Buka saat Masuk";
 "menu.quit" = "Keluar dari FanCurve";
 "name.new" = "Nama baru";

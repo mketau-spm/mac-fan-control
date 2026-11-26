@@ -12,9 +12,9 @@
 "help.saveAsOwn" = "Save as your own profile";
 "help.save" = "Save";
 "menu.saveAsNew" = "Save as New…";
-"menu.duplicate" = "Duplicate as Your Own…";
 "menu.rename" = "Rename…";
 "menu.delete" = "Delete Profile";
+"menu.showTemp" = "Show Temperature in Menu Bar";
 "menu.launchAtLogin" = "Open at Login";
 "menu.quit" = "Quit FanCurve";
 "name.new" = "New name";

@@ -12,9 +12,9 @@
 "help.saveAsOwn" = "存储为自定义配置";
 "help.save" = "存储";
 "menu.saveAsNew" = "存储为新配置…";
-"menu.duplicate" = "复制为自定义配置…";
 "menu.rename" = "重新命名…";
 "menu.delete" = "删除配置";
+"menu.showTemp" = "在菜单栏中显示温度";
 "menu.launchAtLogin" = "登录时打开";
 "menu.quit" = "退出 FanCurve";
 "name.new" = "新名称";

@@ -12,9 +12,9 @@
 "help.saveAsOwn" = "নিজের প্রোফাইল হিসেবে সংরক্ষণ করুন";
 "help.save" = "সংরক্ষণ করুন";
 "menu.saveAsNew" = "নতুন হিসেবে সংরক্ষণ করুন…";
-"menu.duplicate" = "নিজের প্রোফাইল হিসেবে অনুলিপি করুন…";
 "menu.rename" = "নাম পরিবর্তন করুন…";
 "menu.delete" = "প্রোফাইল মুছুন";
+"menu.showTemp" = "মেনু বারে তাপমাত্রা দেখান";
 "menu.launchAtLogin" = "লগইনের সময় খুলুন";
 "menu.quit" = "FanCurve বন্ধ করুন";
 "name.new" = "নতুন নাম";

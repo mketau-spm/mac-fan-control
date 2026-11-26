@@ -12,9 +12,9 @@
 "help.saveAsOwn" = "Als eigenes Profil sichern";
 "help.save" = "Sichern";
 "menu.saveAsNew" = "Als neues Profil sichern …";
-"menu.duplicate" = "Als eigenes duplizieren …";
 "menu.rename" = "Umbenennen …";
 "menu.delete" = "Profil löschen";
+"menu.showTemp" = "Temperatur in der Menüleiste zeigen";
 "menu.launchAtLogin" = "Bei Anmeldung öffnen";
 "menu.quit" = "FanCurve beenden";
 "name.new" = "Neuer Name";

@@ -12,9 +12,9 @@
 "help.saveAsOwn" = "自分のプロファイルとして保存";
 "help.save" = "保存";
 "menu.saveAsNew" = "新規として保存…";
-"menu.duplicate" = "自分用に複製…";
 "menu.rename" = "名称変更…";
 "menu.delete" = "プロファイルを削除";
+"menu.showTemp" = "メニューバーに温度を表示";
 "menu.launchAtLogin" = "ログイン時に開く";
 "menu.quit" = "FanCurve を終了";
 "name.new" = "新しい名前";

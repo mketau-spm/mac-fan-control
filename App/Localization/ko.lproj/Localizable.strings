@@ -12,9 +12,9 @@
 "help.saveAsOwn" = "내 프로필로 저장";
 "help.save" = "저장";
 "menu.saveAsNew" = "새로 저장…";
-"menu.duplicate" = "내 프로필로 복제…";
 "menu.rename" = "이름 변경…";
 "menu.delete" = "프로필 삭제";
+"menu.showTemp" = "메뉴 막대에 온도 표시";
 "menu.launchAtLogin" = "로그인 시 열기";
 "menu.quit" = "FanCurve 종료";
 "name.new" = "새 이름";

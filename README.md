@@ -7,7 +7,9 @@ It reads the average temperature of all CPU cores and sets the fan speed from th
 
 - **One popover, nothing else.** Temperature, fan speed, an on/off switch, the curve and the profile.
 - **Drag the curve.** Double-click empty space to add a point, double-click a point to remove it.
-- **Profiles.** Quiet, Balanced, Cool, Cold and Very Cold, plus your own: save, rename, delete.
+- **Profiles.** Quiet, Balanced, Cool, Cold and Very Cold, plus your own: edit any curve and press ✓
+  to save it; rename or delete your own profiles from the ⚙︎ menu.
+- **⚙︎ menu.** Show or hide the temperature next to the menu bar icon, open at login, quit.
 - **Safe by default.** See [Safety](#safety).
 - **15 languages**, chosen from your system language: English, Chinese (Simplified), Hindi, Spanish,
   French, Arabic, Bengali, Portuguese, Russian, Urdu, Indonesian, German, Japanese, Turkish, Korean.

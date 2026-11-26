@@ -12,9 +12,9 @@
 "help.saveAsOwn" = "حفظ كملف تعريف خاص بك";
 "help.save" = "حفظ";
 "menu.saveAsNew" = "حفظ كملف جديد…";
-"menu.duplicate" = "تكرار كملف خاص بك…";
 "menu.rename" = "إعادة التسمية…";
 "menu.delete" = "حذف ملف التعريف";
+"menu.showTemp" = "إظهار درجة الحرارة في شريط القائمة";
 "menu.launchAtLogin" = "فتح عند تسجيل الدخول";
 "menu.quit" = "إنهاء FanCurve";
 "name.new" = "اسم جديد";

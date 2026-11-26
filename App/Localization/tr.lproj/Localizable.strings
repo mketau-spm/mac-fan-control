@@ -12,9 +12,9 @@
 "help.saveAsOwn" = "Kendi profiliniz olarak kaydedin";
 "help.save" = "Kaydet";
 "menu.saveAsNew" = "Yeni Olarak Kaydet…";
-"menu.duplicate" = "Kendi Profilin Olarak Çoğalt…";
 "menu.rename" = "Yeniden Adlandır…";
 "menu.delete" = "Profili Sil";
+"menu.showTemp" = "Sıcaklığı Menü Çubuğunda Göster";
 "menu.launchAtLogin" = "Girişte Aç";
 "menu.quit" = "FanCurve’den Çık";
 "name.new" = "Yeni ad";

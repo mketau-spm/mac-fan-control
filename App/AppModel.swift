@@ -21,7 +21,10 @@ final class AppModel: ObservableObject {
         didSet { defaults.set(enabled, forKey: Keys.enabled); needsPush = true; kick() }
     }
 
-    private enum Keys { static let selected = "selectedProfile", enabled = "controlEnabled" }
+    /// Show the average temperature next to the fan icon in the menu bar.
+    @Published var showMenuTemp: Bool { didSet { defaults.set(showMenuTemp, forKey: Keys.showTemp) } }
+
+    private enum Keys { static let selected = "selectedProfile", enabled = "controlEnabled", showTemp = "showMenuTemp" }
     private let defaults: UserDefaults
     private let store: ProfileStore
     private let client: HelperClient
@@ -42,7 +45,9 @@ final class AppModel: ObservableObject {
         self.customProfiles = custom
         self.selectedID = selected.id
         self.draft = selected.points
-        self.enabled = defaults.object(forKey: Keys.enabled) as? Bool ?? true
+        // bool(forKey:) also understands "YES"/"NO" passed as launch arguments; missing key → true.
+        self.enabled = defaults.object(forKey: Keys.enabled) == nil || defaults.bool(forKey: Keys.enabled)
+        self.showMenuTemp = defaults.object(forKey: Keys.showTemp) == nil || defaults.bool(forKey: Keys.showTemp)
         if autostart { start() }
     }
 
