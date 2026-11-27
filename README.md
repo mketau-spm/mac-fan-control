@@ -60,16 +60,21 @@ average): the red dot on the chart, while a faint dashed line shows the real tem
 | Smooth (default) | 45 s | ≈ 62 °C |
 | Very Smooth | 90 s | ≈ 53 °C |
 
-Cooling is followed 1.5× more slowly, so the fans don't pump when the load comes in bursts.
-If the cores stay at 85 °C or more for 10 s, the time constant drops to 5 s.
+Cooling is smoothed the same way. Above 80 °C the time constant shrinks smoothly, down to a fifth
+of itself near 95 °C, so real heat is followed sooner without a sudden jump.
+
+On top of that the fan level itself changes by at most +2 %/s and −1 %/s: going from idle to full
+speed takes about 50 s, so you hear the fans grow instead of switch on.
 
 ## Safety
 
 - Fan speed always stays between Apple's minimum and maximum for each fan.
-- Average core temperature ≥ 90 °C or any core ≥ 95 °C → fans go to 100 % at once.
-  This uses the real temperature, never the smoothed one.
+- Average core temperature ≥ 95 °C or any core ≥ 105 °C → fans go to 100 % at once, and stay
+  there until the average is below 90 °C and every core below 100 °C. This uses the real
+  temperature, never the smoothed one. Apple Silicon cores run at 95–100 °C under heavy load
+  by design, and the chip slows itself down before it overheats.
 - The curve can never go down: hotter never means slower.
-- Speed changes are smoothed: up to +20 %/s, down to −3 %/s.
+- Speed changes are smoothed: up to +2 %/s, down to −1 %/s.
 - New targets are written at most every 3 s and only when they change by ≥ 3 %.
   The safety rule, the first write, a new curve and reaching min/max skip this.
 - Fans go back to macOS when the app quits or crashes, the switch is off, sensors are missing,

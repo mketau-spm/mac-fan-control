@@ -53,10 +53,11 @@ def start(env_extra=None):
 CURVE = [[40, 0], [60, 50], [80, 100]]
 
 # --- basic protocol, curve math, permissions
-p, path = start({"FANCURVE_FAKE_TEMP": "50"})
+FAST = {"FANCURVE_FAKE_RAMP": "20,3"}  # quick slew so curve tests don't wait a minute
+p, path = start({"FANCURVE_FAKE_TEMP": "50", **FAST})
 check("socket is owner-only (0600)", oct(os.stat(path).st_mode & 0o777) == "0o600", oct(os.stat(path).st_mode))
 c = Conn(path)
-check("hello returns version", c.req({"cmd": "hello"}).get("version") == 3)
+check("hello returns version", c.req({"cmd": "hello"}).get("version") == 4)
 s = c.req({"cmd": "state"})
 check("state before control is auto", s["mode"] == "auto", s["mode"])
 check("state has 2 fans", len(s["fans"]) == 2)
@@ -77,14 +78,14 @@ for bad, why in [([[40, 0]], "one point"), ([[40, 0], [40.5, 10]], "points too c
     r = c.req({"cmd": "control", "enabled": True, "points": bad})
     check(f"rejects {why}", r.get("ok") is False, r)
 r = c.req({"cmd": "control", "enabled": True, "points": [[40, 60], [60, 20]]})
-check("ramp up is limited to +20 % per step", r["ok"] and r["pct"] == 45.0, r.get("pct"))
-time.sleep(1.2)
+check("ramp up is limited per second", r["ok"] and 25 < r["pct"] <= 45.0, r.get("pct"))
+time.sleep(2.3)
 r = c.req({"cmd": "state"})
 check("non-monotonic curve is flattened, not slower when hotter", r["pct"] == 60.0, r.get("pct"))
 c.req({"cmd": "control", "enabled": True, "points": [[40, 0], [60, 0]]})
 time.sleep(1.2)
 r = c.req({"cmd": "state"})
-check("ramp down is limited to −3 % per step", 50 <= r["pct"] < 60, r.get("pct"))
+check("ramp down is limited per second", 50 <= r["pct"] < 60, r.get("pct"))
 c.req({"cmd": "control", "enabled": True, "points": CURVE})
 
 # --- disable → auto
@@ -115,10 +116,22 @@ check("SIGTERM exits 0", p.returncode == 0, p.returncode)
 check("socket removed on exit", not os.path.exists(path))
 
 # --- failsafe
-p, path = start({"FANCURVE_FAKE_TEMP": "91"})
+p, path = start()
 c = Conn(path)
+c.req({"cmd": "fake-temp", "value": 91})
 s = c.req({"cmd": "control", "enabled": True, "points": [[40, 0], [100, 10]]})
-check("avg ≥ 90 °C → failsafe 100 % regardless of curve", s["mode"] == "failsafe" and s["pct"] == 100.0, s)
+check("avg 91 °C is not a fail-safe any more", s["mode"] == "curve", s["mode"])
+c.req({"cmd": "fake-temp", "value": 96})
+time.sleep(1.2)
+s = c.req({"cmd": "state"})
+check("avg ≥ 95 °C → failsafe 100 % regardless of curve", s["mode"] == "failsafe" and s["pct"] == 100.0, s)
+c.req({"cmd": "fake-temp", "value": 92})
+time.sleep(1.2)
+check("fail-safe holds until avg < 90 °C (no flapping)", c.req({"cmd": "state"})["mode"] == "failsafe")
+c.req({"cmd": "fake-temp", "value": 89})
+time.sleep(1.2)
+s = c.req({"cmd": "state"})
+check("fail-safe ends below 90 °C and fans slow down gradually", s["mode"] == "curve" and s["pct"] >= 97, (s["mode"], s["pct"]))
 c.close(); p.terminate(); p.wait(3)
 
 # --- SMC refusal → error mode, fans back to auto, re-enable retries
@@ -132,7 +145,7 @@ c.close(); p.terminate(); p.wait(3)
 # --- write throttle: ≤ 1 write per 3 s, only for ≥ 3 % changes; fail-safe, new curve and min/max skip it
 MIN0, MAX0 = 1350, 5349
 rpm = lambda pct: MIN0 + pct / 100 * (MAX0 - MIN0)
-p, path = start()
+p, path = start(FAST)
 c = Conn(path)
 T = lambda s: s["fans"][0]["target"]
 st = lambda: c.req({"cmd": "state"})
@@ -153,7 +166,7 @@ check("throttle: settles on the curve", s["applied"] == 75.0 and abs(settled - r
 c.req({"cmd": "fake-temp", "value": 70.4})  # 76 % → +40 rpm, under 1 %
 time.sleep(4.5)
 check("throttle: < 3 % change is never written", T(st()) == settled)
-c.req({"cmd": "fake-temp", "value": 92})
+c.req({"cmd": "fake-temp", "value": 96})
 time.sleep(1.2)
 s = st()
 check("throttle: fail-safe skips it → max at once", s["mode"] == "failsafe" and T(s) == MAX0, (s["mode"], T(s)))
@@ -162,7 +175,7 @@ s = c.req({"cmd": "control", "enabled": True, "points": [[40, 0], [60, 4]]})
 check("throttle: new curve is written at once", s["applied"] == s["pct"], (s["applied"], s["pct"]))
 c.close(); p.terminate(); p.wait(3)
 
-p, path = start()  # fresh helper: start at 4 %, then fall to the minimum
+p, path = start(FAST)  # fresh helper: start at 4 %, then fall to the minimum
 c = Conn(path)
 c.req({"cmd": "fake-temp", "value": 60})
 s = c.req({"cmd": "control", "enabled": True, "points": [[40, 0], [60, 4]]})
@@ -175,7 +188,7 @@ c.close(); p.terminate(); p.wait(3)
 
 # --- thermal inertia: the curve follows a smoothed temperature
 SM = [[40, 0], [60, 50], [80, 100]]
-p, path = start()
+p, path = start(FAST)
 c = Conn(path)
 c.req({"cmd": "fake-temp", "value": 40})
 c.req({"cmd": "control", "enabled": True, "points": SM, "response": 0})  # response 0 → follows the raw value at once
@@ -196,24 +209,30 @@ c.req({"cmd": "control", "enabled": True, "points": SM, "response": 4})  # falli
 c.req({"cmd": "fake-temp", "value": 40})
 time.sleep(1.2)
 s = c.req({"cmd": "state"})
-check("inertia: cooling is followed more slowly than heating", s["cpu"]["effective"] > 60, s["cpu"])
+check("inertia: cooling is smoothed too", s["cpu"]["effective"] > 60, s["cpu"])
 c.close(); p.terminate(); p.wait(3)
 
+# --- soft response near the fail-safe, slow default slew
 p, path = start()
 c = Conn(path)
 c.req({"cmd": "fake-temp", "value": 40})
 c.req({"cmd": "control", "enabled": True, "points": SM, "response": 0})
 c.req({"cmd": "control", "enabled": True, "points": SM, "response": 300})
-c.req({"cmd": "fake-temp", "value": 88})
+c.req({"cmd": "fake-temp", "value": 93})
 time.sleep(3.2)
 s = c.req({"cmd": "state"})
-check("inertia: slow response holds the fans at first", s["cpu"]["effective"] < 45, s["cpu"])
-time.sleep(10.5)
+# 300 s normally → +0.5 °C in 3 s; at 93 °C the time constant is 60 s → about +2.6 °C
+check("inertia: near the fail-safe the response gets faster, without a jump",
+      41.8 < s["cpu"]["effective"] < 46, s["cpu"])
+c.req({"cmd": "fake-temp", "value": 70})
+before = c.req({"cmd": "control", "enabled": True, "points": SM, "response": 0})["pct"]  # curve wants 75 % now
+time.sleep(3.2)
 s = c.req({"cmd": "state"})
-check("inertia: ≥ 85 °C for 10 s speeds the response up", s["cpu"]["effective"] > 55, s["cpu"])
-c.req({"cmd": "fake-temp", "value": 92})
-s = c.req({"cmd": "control", "enabled": True, "points": SM, "response": 300})
-check("inertia: fail-safe uses the raw temperature", s["mode"] == "failsafe" and s["pct"] == 100.0, (s["mode"], s["cpu"]))
+check("slew: fans rise by about 2 % per second", 4 <= s["pct"] - before <= 8.5, (before, s["pct"]))
+c.req({"cmd": "fake-temp", "value": 96})
+time.sleep(1.2)
+s = c.req({"cmd": "state"})
+check("slew: the fail-safe still goes to 100 % at once", s["mode"] == "failsafe" and s["pct"] == 100.0, (s["mode"], s["pct"]))
 c.close(); p.terminate(); p.wait(3)
 
 print(f"\n{failures} failure(s)")

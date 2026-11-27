@@ -45,7 +45,7 @@ struct PopoverView: View {
             header
             notice
             CurveEditor(points: $model.draft, currentTemp: model.curveTemp, rawTemp: model.avgTemp,
-                        failsafeTemp: model.state?.failsafe.avg ?? 90, compact: true)
+                        failsafeTemp: model.state?.failsafe.avg ?? 95, compact: true)
                 .frame(height: 150)
                 .opacity(model.needsAllow ? 0.35 : (model.enabled ? 1 : 0.45))
                 .disabled(model.needsAllow)  // nothing to apply the curve to without fan control

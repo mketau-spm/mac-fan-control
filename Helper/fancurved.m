@@ -26,23 +26,27 @@
 #include <errno.h>
 #include <math.h>
 
-#define HELPER_VERSION 3
+#define HELPER_VERSION 4
 #define MAX_CLIENTS 8
 #define MAX_POINTS 12
-#define FAILSAFE_AVG 90.0
-#define FAILSAFE_HOT 95.0
-#define RAMP_UP 20.0
-#define RAMP_DOWN 3.0
+// Fail-safe: 100 % at once. Apple Silicon cores run at 95–100 °C under heavy load by design,
+// so the hottest core gets a high limit; the average is the main signal. Leaving needs a margin
+// (FAILSAFE_*_OFF) so the fans don't flap on and off around the limit.
+#define FAILSAFE_AVG 95.0
+#define FAILSAFE_HOT 105.0
+#define FAILSAFE_AVG_OFF 90.0
+#define FAILSAFE_HOT_OFF 100.0
+// Fan level slew limit, % per second. 0 → 100 % takes about 50 s, so the sound grows slowly.
+#define RAMP_UP 2.0
+#define RAMP_DOWN 1.0
 // Thermal inertia: the curve follows a smoothed core temperature, so a short burst of load
 // (a test run, a build) does not send the fans to full speed while the case is still cold.
-// Rising uses the time constant the app sends; falling is 1.5× slower so fans don't pump.
-// Real heat cuts the delay: ≥ HOT_FAST °C for HOT_FAST_AFTER s → at most HOT_FAST_TAU s.
+// The time constant comes from the app. Above SOFT_FROM °C it shrinks smoothly, down to
+// SOFT_MIN of itself near the fail-safe, so real heat is followed sooner without any jump.
 // The fail-safe always looks at the raw temperature.
 #define MAX_RESPONSE 300.0
-#define FALL_FACTOR 1.5
-#define HOT_FAST 85.0
-#define HOT_FAST_AFTER 10.0
-#define HOT_FAST_TAU 5.0
+#define SOFT_FROM 80.0
+#define SOFT_MIN 0.2
 
 static BOOL fake = NO;
 double fakeTemp = NAN;  // --fake only: set by the "fake-temp" command in tests
@@ -247,18 +251,19 @@ static NSDictionary *lastState = nil;
 static double response = 0;           // rise time constant, s
 static double smoothT = NAN;          // temperature the curve sees; NaN = start from the raw value
 static double lastSmooth = NAN;       // time of the last smoothing step
-static double hotSince = NAN;         // since when the raw temperature is ≥ HOT_FAST
+static double rampUp = RAMP_UP, rampDown = RAMP_DOWN;  // --fake tests may override (FANCURVE_FAKE_RAMP)
+static double lastRamp = NAN;         // time of the last slew step; steps scale with elapsed time
 
 // One smoothing step (exponential moving average over real elapsed time).
 static double smoothStep(double raw) {
     double t = now();
     if (isnan(raw)) return smoothT;
-    if (raw >= HOT_FAST) { if (isnan(hotSince)) hotSince = t; } else hotSince = NAN;
     if (isnan(smoothT) || isnan(lastSmooth) || response <= 0) { smoothT = raw; lastSmooth = t; return smoothT; }
     double dt = fmax(0, t - lastSmooth);
     lastSmooth = t;
-    double tau = raw > smoothT ? response : response * FALL_FACTOR;
-    if (raw > smoothT && !isnan(hotSince) && t - hotSince >= HOT_FAST_AFTER) tau = fmin(tau, HOT_FAST_TAU);
+    double tau = response;
+    if (raw > smoothT && raw > SOFT_FROM)
+        tau *= fmax(SOFT_MIN, fmin(1, (FAILSAFE_AVG - raw) / (FAILSAFE_AVG - SOFT_FROM)));
     smoothT += (raw - smoothT) * (1 - exp(-dt / tau));
     return smoothT;
 }
@@ -273,7 +278,7 @@ static double curvePct(double t) {
 
 static void giveBack(void) {
     if (manualActive) fansAuto();
-    manualActive = NO; pct = NAN; failsafe = NO;
+    manualActive = NO; pct = NAN; failsafe = NO; lastRamp = NAN;
     appliedPct = NAN; forceWrite = YES;
     for (int i = 0; i < 4; i++) writtenRPM[i] = NAN;
 }
@@ -300,11 +305,15 @@ static void tick(void) {
     if (control) {
         double want = curvePct(eff);
         BOOL wasFailsafe = failsafe;
-        failsafe = t.hot >= FAILSAFE_HOT || t.avg >= FAILSAFE_AVG;
+        failsafe = t.hot >= FAILSAFE_HOT || t.avg >= FAILSAFE_AVG
+                   || (failsafe && (t.hot >= FAILSAFE_HOT_OFF || t.avg >= FAILSAFE_AVG_OFF));
         if (failsafe) want = 100;
+        // Slew by elapsed time, not per tick: extra ticks from app commands don't speed it up.
+        double tn = now(), dt = isnan(lastRamp) ? 1 : fmax(0, fmin(2, tn - lastRamp));
+        lastRamp = tn;
         if (isnan(pct) || failsafe) pct = want;
-        else if (want > pct) pct = fmin(want, pct + RAMP_UP);
-        else pct = fmax(want, pct - RAMP_DOWN);
+        else if (want > pct) pct = fmin(want, pct + rampUp * dt);
+        else pct = fmax(want, pct - rampDown * dt);
         BOOL urgent = forceWrite || failsafe != wasFailsafe;
         BOOL wrote = NO;
         for (int i = 0; i < n && !lastError; i++) {
@@ -460,6 +469,8 @@ int main(int argc, const char **argv) {
             else if (!strcmp(argv[i], "--version")) { printf("%d\n", HELPER_VERSION); return 0; }
             else { fprintf(stderr, "usage: fancurved [--socket PATH] [--owner UID] [--fake]\n"); return 1; }
         }
+        const char *fr = getenv("FANCURVE_FAKE_RAMP");  // "up,down" — tests only
+        if (fake && fr && sscanf(fr, "%lf,%lf", &rampUp, &rampDown) != 2) { rampUp = RAMP_UP; rampDown = RAMP_DOWN; }
         if (sizeof(SMCKeyData) != 80) { fprintf(stderr, "bad SMC struct size\n"); return 2; }
 
         signal(SIGINT, onSignal); signal(SIGTERM, onSignal); signal(SIGHUP, onSignal);
@@ -498,7 +509,7 @@ int main(int argc, const char **argv) {
                 @autoreleasepool { tick(); }
                 next = now() + 1.0;
             }
-            if (!nclients) { giveBack(); lastState = nil; smoothT = NAN; hotSince = NAN; next = now(); }
+            if (!nclients) { giveBack(); lastState = nil; smoothT = NAN; next = now(); }
         }
         fansAuto();
     }
