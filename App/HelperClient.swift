@@ -24,7 +24,7 @@ struct HelperState: Decodable, Equatable {
 /// Talks to fancurved over its Unix socket. All calls block. AppModel only ever touches it
 /// from its own serial queue, which is what makes the unchecked Sendable safe.
 final class HelperClient: @unchecked Sendable {
-    static let expectedVersion = 4
+    static let expectedVersion = 5
     let path: String
     private var fd: Int32 = -1
     private var buffer = Data()

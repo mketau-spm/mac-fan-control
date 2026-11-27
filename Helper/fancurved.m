@@ -26,7 +26,7 @@
 #include <errno.h>
 #include <math.h>
 
-#define HELPER_VERSION 4
+#define HELPER_VERSION 5
 #define MAX_CLIENTS 8
 #define MAX_POINTS 12
 // Fail-safe: 100 % at once. Apple Silicon cores run at 95–100 °C under heavy load by design,
@@ -36,15 +36,18 @@
 #define FAILSAFE_HOT 105.0
 #define FAILSAFE_AVG_OFF 90.0
 #define FAILSAFE_HOT_OFF 100.0
-// Fan level slew limit, % per second. 0 → 100 % takes about 50 s, so the sound grows slowly.
+// Fan level slew limit, % per second. 0 → 100 % takes about 50 s, so the sound grows slowly;
+// slowing down is quicker so the fans don't stay loud long after the load is gone.
 #define RAMP_UP 2.0
-#define RAMP_DOWN 1.0
+#define RAMP_DOWN 3.0
 // Thermal inertia: the curve follows a smoothed core temperature, so a short burst of load
 // (a test run, a build) does not send the fans to full speed while the case is still cold.
 // The time constant comes from the app. Above SOFT_FROM °C it shrinks smoothly, down to
 // SOFT_MIN of itself near the fail-safe, so real heat is followed sooner without any jump.
+// Cooling is followed FALL_DIVISOR times faster than heating.
 // The fail-safe always looks at the raw temperature.
 #define MAX_RESPONSE 300.0
+#define FALL_DIVISOR 3.0
 #define SOFT_FROM 80.0
 #define SOFT_MIN 0.2
 
@@ -261,7 +264,7 @@ static double smoothStep(double raw) {
     if (isnan(smoothT) || isnan(lastSmooth) || response <= 0) { smoothT = raw; lastSmooth = t; return smoothT; }
     double dt = fmax(0, t - lastSmooth);
     lastSmooth = t;
-    double tau = response;
+    double tau = raw > smoothT ? response : response / FALL_DIVISOR;
     if (raw > smoothT && raw > SOFT_FROM)
         tau *= fmax(SOFT_MIN, fmin(1, (FAILSAFE_AVG - raw) / (FAILSAFE_AVG - SOFT_FROM)));
     smoothT += (raw - smoothT) * (1 - exp(-dt / tau));

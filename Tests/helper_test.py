@@ -57,7 +57,7 @@ FAST = {"FANCURVE_FAKE_RAMP": "20,3"}  # quick slew so curve tests don't wait a 
 p, path = start({"FANCURVE_FAKE_TEMP": "50", **FAST})
 check("socket is owner-only (0600)", oct(os.stat(path).st_mode & 0o777) == "0o600", oct(os.stat(path).st_mode))
 c = Conn(path)
-check("hello returns version", c.req({"cmd": "hello"}).get("version") == 4)
+check("hello returns version", c.req({"cmd": "hello"}).get("version") == 5)
 s = c.req({"cmd": "state"})
 check("state before control is auto", s["mode"] == "auto", s["mode"])
 check("state has 2 fans", len(s["fans"]) == 2)
@@ -131,7 +131,7 @@ check("fail-safe holds until avg < 90 °C (no flapping)", c.req({"cmd": "state"}
 c.req({"cmd": "fake-temp", "value": 89})
 time.sleep(1.2)
 s = c.req({"cmd": "state"})
-check("fail-safe ends below 90 °C and fans slow down gradually", s["mode"] == "curve" and s["pct"] >= 97, (s["mode"], s["pct"]))
+check("fail-safe ends below 90 °C and fans slow down gradually", s["mode"] == "curve" and s["pct"] >= 93, (s["mode"], s["pct"]))
 c.close(); p.terminate(); p.wait(3)
 
 # --- SMC refusal → error mode, fans back to auto, re-enable retries
@@ -205,11 +205,11 @@ check("inertia: a new response keeps the smoothed value", s["cpu"]["effective"] 
 time.sleep(8.2)
 s = c.req({"cmd": "state"})
 check("inertia: long load reaches the curve", s["cpu"]["effective"] > 78 and s["pct"] > 90, (s["cpu"], s["pct"]))
-c.req({"cmd": "control", "enabled": True, "points": SM, "response": 4})  # falling: 6 s
+c.req({"cmd": "control", "enabled": True, "points": SM, "response": 12})  # falling: 4 s
 c.req({"cmd": "fake-temp", "value": 40})
 time.sleep(1.2)
 s = c.req({"cmd": "state"})
-check("inertia: cooling is smoothed too", s["cpu"]["effective"] > 60, s["cpu"])
+check("inertia: cooling is smoothed too", 60 < s["cpu"]["effective"] < 78, s["cpu"])
 c.close(); p.terminate(); p.wait(3)
 
 # --- soft response near the fail-safe, slow default slew
