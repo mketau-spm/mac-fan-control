@@ -1,5 +1,8 @@
 # FanCurve
 
+[![CI](https://github.com/mketau-spm/mac-fan-control/actions/workflows/ci.yml/badge.svg)](https://github.com/mketau-spm/mac-fan-control/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 A tiny menu bar app that lets you set your own fan curve on Apple Silicon MacBook Pros.
 It reads the average temperature of all CPU cores and sets the fan speed from the curve you draw.
 
@@ -22,7 +25,18 @@ It reads the average temperature of all CPU cores and sets the fan speed from th
 
 ## Install
 
-FanCurve is built from source. You need Xcode or the Xcode Command Line Tools.
+### Download
+
+Get `FanCurve.zip` from the [latest release](https://github.com/mketau-spm/mac-fan-control/releases/latest),
+unzip it and move `FanCurve.app` to `/Applications`.
+
+The release is signed ad-hoc and is not notarized, so macOS blocks it on first open.
+Open it once, then go to **System Settings → Privacy & Security** and click **Open Anyway**.
+If you prefer not to do that, build it yourself.
+
+### Build from source
+
+You need Xcode or the Xcode Command Line Tools.
 
 ```sh
 git clone https://github.com/mketau-spm/mac-fan-control.git
@@ -81,6 +95,14 @@ speed takes about 50 s, so you hear the fans grow instead of switch on.
 - Fans go back to macOS when the app quits or crashes, the switch is off, sensors are missing,
   the SMC refuses a write, or the helper gets a signal or restarts.
 
+## Troubleshooting
+
+- **The button says "Allow fan control" again after an update.** A new version of the helper was
+  released. Click it and enter your password once more.
+- **"Your Mac refused the command".** The SMC did not accept manual mode. The fans stay under macOS
+  control. Turn the switch off and on to retry, and open an issue with your Mac model if it keeps happening.
+- **Helper log:** `/var/log/fancurve-helper.log`.
+
 ## Tests
 
 ```sh
@@ -105,6 +127,11 @@ Try another language: `open -n build/FanCurve.app --args -AppleLanguages "(ja)"`
 sudo sh Helper/uninstall-helper.sh
 rm -rf /Applications/FanCurve.app
 ```
+
+## Contributing
+
+Issues and pull requests are welcome. Run `scripts/build.sh` before you open a pull request: it runs all tests.
+Report security problems privately, see [SECURITY.md](SECURITY.md). Changes are listed in [CHANGELOG.md](CHANGELOG.md).
 
 ## Disclaimer
 

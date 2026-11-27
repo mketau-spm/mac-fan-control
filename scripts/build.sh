@@ -14,7 +14,11 @@ clang -O2 -fobjc-arc -Wall -Werror -mmacosx-version-min=14.0 -framework Foundati
   -o "$BUILD/fancurved" Helper/fancurved.m
 
 echo "▸ helper tests"
-/usr/bin/python3 -I Tests/helper_test.py "$BUILD/fancurved" 2>/dev/null | tail -1
+# Full output only on failure.
+if ! out=$(/usr/bin/python3 -I Tests/helper_test.py "$BUILD/fancurved" 2>/dev/null); then
+  print -r -- "$out" | grep -v '^PASS'; exit 1
+fi
+print -r -- "${out##*$'\n'}"
 
 echo "▸ app"
 SOURCES=(App/Localization.swift App/Curve.swift App/HelperClient.swift App/HelperInstaller.swift App/AppModel.swift \
@@ -27,7 +31,8 @@ swiftc -O -swift-version 5 -target arm64-apple-macosx14.0 -parse-as-library \
 echo "▸ unit tests"
 swiftc -swift-version 5 -target arm64-apple-macosx14.0 -o "$BUILD/unit-tests" \
   App/Localization.swift App/Curve.swift Tests/CurveTests.swift
-"$BUILD/unit-tests" | tail -1
+if ! out=$("$BUILD/unit-tests"); then print -r -- "$out" | grep -v '^PASS'; exit 1; fi
+print -r -- "${out##*$'\n'}"
 
 echo "▸ bundle"
 cp App/Info.plist "$APP/Contents/Info.plist"

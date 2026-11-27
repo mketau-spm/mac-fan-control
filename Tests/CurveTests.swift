@@ -1,4 +1,4 @@
-// Plain test runner for Curve/Profile logic (no XCTest needed): swiftc App/Curve.swift Tests/CurveTests.swift
+// Plain test runner for Curve/Profile logic (no XCTest needed): swiftc App/Localization.swift App/Curve.swift Tests/CurveTests.swift
 import Foundation
 
 var failures = 0

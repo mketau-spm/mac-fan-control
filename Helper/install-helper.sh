@@ -12,10 +12,6 @@ case "$OWNER" in ''|*[!0-9]*) echo "bad uid" >&2; exit 1 ;; esac
 [ -f "$SRC" ] || { echo "helper not found: $SRC" >&2; exit 1; }
 
 launchctl bootout "system/$LABEL" 2>/dev/null || true
-# Stop the old Python prototype (legacy/fancurve.py) if it still runs: two controllers would fight.
-# Its fanhw child gives the fans back to macOS on exit.
-pkill -TERM -f "python3 fancurve.py" 2>/dev/null || true
-sleep 1
 mkdir -p /Library/PrivilegedHelperTools
 cp "$SRC" "$DST.new"
 chown root:wheel "$DST.new"

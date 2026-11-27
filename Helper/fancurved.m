@@ -52,7 +52,7 @@
 #define SOFT_MIN 0.2
 
 static BOOL fake = NO;
-double fakeTemp = NAN;  // --fake only: set by the "fake-temp" command in tests
+static double fakeTemp = NAN;  // --fake only: set by the "fake-temp" command in tests
 static const char *socketPath = "/var/run/fancurve.sock";
 
 // ============================================================ temperatures (IOHID)
@@ -95,7 +95,6 @@ static Temps readTemps(void) {
         else if ([name hasPrefix:@"gas gauge"]) { if (isnan(t.battery) || v > t.battery) t.battery = v; }
     }
     if (t.n) t.avg = sum / t.n;
-    extern double fakeTemp;
     const char *ft = getenv("FANCURVE_FAKE_TEMP");
     double forced = !isnan(fakeTemp) ? fakeTemp : (ft && *ft ? atof(ft) : NAN);
     if (fake && !isnan(forced)) { t.avg = forced; t.hot = t.avg + 5; t.n = t.n ? t.n : 1; }
@@ -404,7 +403,7 @@ static void dropClient(int idx) {
 static void handle(int fd, NSData *line) {
     NSDictionary *req = [NSJSONSerialization JSONObjectWithData:line options:0 error:nil];
     if (![req isKindOfClass:NSDictionary.class]) { sendJSON(fd, @{@"ok": @NO, @"error": @"bad json"}); return; }
-    NSString *cmd = req[@"cmd"];
+    id cmd = req[@"cmd"];  // compared with isEqual:, so a non-string just falls through
     if ([cmd isEqual:@"hello"]) { sendJSON(fd, @{@"ok": @YES, @"version": @HELPER_VERSION}); return; }
     if ([cmd isEqual:@"state"]) { if (!lastState) tick(); sendJSON(fd, stateFor(fd)); return; }
     if ([cmd isEqual:@"release"]) {
@@ -420,7 +419,9 @@ static void handle(int fd, NSData *line) {
         if (err) { sendJSON(fd, @{@"ok": @NO, @"error": err}); return; }
         id r = req[@"response"];
         response = [r isKindOfClass:NSNumber.class] ? fmax(0, fmin(MAX_RESPONSE, [r doubleValue])) : 0;
-        BOOL en = [req[@"enabled"] boolValue];
+        id e = req[@"enabled"];
+        if (![e isKindOfClass:NSNumber.class]) { sendJSON(fd, @{@"ok": @NO, @"error": @"enabled must be true or false"}); return; }
+        BOOL en = [e boolValue];
         if (en && (!ctlEnabled || controller != fd)) lastError = nil;  // (re)enabling retries after an error
         controller = fd; ctlEnabled = en;
         forceWrite = YES;  // a new curve or profile applies at once, no 3 s wait

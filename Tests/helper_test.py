@@ -106,6 +106,10 @@ c2.close()
 c = Conn(path)
 c.s.sendall(b"not json\n")
 check("bad json → error reply", json.loads(c.f.readline()).get("ok") is False)
+for bad in [{"cmd": "control", "enabled": [1], "points": CURVE}, {"cmd": "control", "enabled": "yes", "points": CURVE},
+            {"cmd": ["control"]}, [1, 2], {"cmd": "control", "enabled": True, "points": CURVE, "response": "x"}]:
+    r = c.req(bad)
+    check(f"badly typed request gets a reply: {json.dumps(bad)[:40]}", isinstance(r, dict) and "ok" in r, r)
 check("helper still alive", p.poll() is None)
 c.close()
 

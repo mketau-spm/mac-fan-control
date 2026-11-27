@@ -8,7 +8,7 @@
   <key>CFBundleExecutable</key><string>FanCurve</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>1.0</string>
+  <key>CFBundleShortVersionString</key><string>1.0.0</string>
   <key>CFBundleVersion</key><string>1</string>
   <key>CFBundleDevelopmentRegion</key><string>en</string>
   <key>CFBundleLocalizations</key>
@@ -17,6 +17,6 @@
   <key>LSMinimumSystemVersion</key><string>14.0</string>
   <key>LSApplicationCategoryType</key><string>public.app-category.utilities</string>
   <key>LSUIElement</key><true/>
-  <key>NSHumanReadableCopyright</key><string>FanCurve</string>
+  <key>NSHumanReadableCopyright</key><string>© 2026 mketau-spm · MIT License</string>
 </dict>
 </plist>

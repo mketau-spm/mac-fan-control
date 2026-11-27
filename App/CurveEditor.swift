@@ -8,7 +8,7 @@ struct CurveEditor: View {
     var currentTemp: Double?
     /// Real core temperature; a faint line when it is away from `currentTemp`.
     var rawTemp: Double?
-    var failsafeTemp: Double = 90
+    var failsafeTemp: Double = 95
     var compact = false
 
     @State private var dragIndex: Int?
