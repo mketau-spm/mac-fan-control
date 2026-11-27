@@ -1,7 +1,7 @@
 import SwiftUI
 
 // The whole app is this popover: temperature, fan speed, switch, curve, profile.
-// Everything rare lives in "…". All text comes from Localization/<lang>.lproj via L().
+// Everything rare lives in the gear menu. All text comes from Localization/<lang>.lproj via L().
 
 struct MenuBarLabel: View {
     @ObservedObject var model: AppModel
@@ -44,7 +44,7 @@ struct PopoverView: View {
         VStack(alignment: .leading, spacing: 12) {
             header
             notice
-            CurveEditor(points: $model.draft, currentTemp: model.avgTemp,
+            CurveEditor(points: $model.draft, currentTemp: model.curveTemp, rawTemp: model.avgTemp,
                         failsafeTemp: model.state?.failsafe.avg ?? 90, compact: true)
                 .frame(height: 150)
                 .opacity(model.needsAllow ? 0.35 : (model.enabled ? 1 : 0.45))
@@ -145,6 +145,10 @@ struct PopoverView: View {
                     Button(L("menu.delete"), role: .destructive) { model.delete(model.selectedID) }
                     Divider()
                 }
+                Picker(L("menu.response"), selection: $model.response) {
+                    ForEach(AppModel.Response.allCases) { Text(verbatim: $0.title).tag($0) }
+                }
+                .pickerStyle(.menu)
                 Toggle(L("menu.showTemp"), isOn: $model.showMenuTemp)
                 Toggle(L("menu.launchAtLogin"), isOn: Binding(get: { model.launchAtLogin }, set: { model.launchAtLogin = $0 }))
                 Divider()

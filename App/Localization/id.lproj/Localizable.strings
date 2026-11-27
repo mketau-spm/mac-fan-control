@@ -35,3 +35,7 @@
 "error.badReply" = "Balasan tak terduga dari kontrol kipas";
 "a11y.curve" = "Kurva kipas";
 "curve.failsafe" = "proteksi";
+"menu.response" = "Respons kipas";
+"response.fast" = "Cepat";
+"response.smooth" = "Halus";
+"response.verySmooth" = "Sangat halus";

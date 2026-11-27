@@ -35,3 +35,7 @@
 "error.badReply" = "फ़ैन नियंत्रण से अनपेक्षित जवाब";
 "a11y.curve" = "फ़ैन कर्व";
 "curve.failsafe" = "सुरक्षा";
+"menu.response" = "पंखे की प्रतिक्रिया";
+"response.fast" = "तेज़";
+"response.smooth" = "सहज";
+"response.verySmooth" = "बहुत सहज";

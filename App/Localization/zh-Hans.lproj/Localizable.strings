@@ -35,3 +35,7 @@
 "error.badReply" = "风扇控制返回了意外的响应";
 "a11y.curve" = "风扇曲线";
 "curve.failsafe" = "保护";
+"menu.response" = "风扇响应";
+"response.fast" = "快速";
+"response.smooth" = "平滑";
+"response.verySmooth" = "非常平滑";

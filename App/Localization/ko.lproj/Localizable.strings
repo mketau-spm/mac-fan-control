@@ -35,3 +35,7 @@
 "error.badReply" = "팬 제어에서 예상치 못한 응답이 왔습니다";
 "a11y.curve" = "팬 곡선";
 "curve.failsafe" = "보호";
+"menu.response" = "팬 반응";
+"response.fast" = "빠르게";
+"response.smooth" = "부드럽게";
+"response.verySmooth" = "아주 부드럽게";

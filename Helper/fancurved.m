@@ -7,7 +7,8 @@
 // Protocol: one JSON object per line, one JSON reply per line.
 //   {"cmd":"hello"}                                   → {"ok":true,"version":N}
 //   {"cmd":"state"}                                   → state
-//   {"cmd":"control","enabled":true,"points":[[t,f],…]} → state
+//   {"cmd":"control","enabled":true,"points":[[t,f],…],"response":45} → state
+//     response: seconds the curve takes to follow the core temperature (0 = at once, default 0)
 //   {"cmd":"release"}                                 → state
 //
 // Usage: fancurved [--socket PATH] [--owner UID] [--fake]
@@ -25,13 +26,23 @@
 #include <errno.h>
 #include <math.h>
 
-#define HELPER_VERSION 2
+#define HELPER_VERSION 3
 #define MAX_CLIENTS 8
 #define MAX_POINTS 12
 #define FAILSAFE_AVG 90.0
 #define FAILSAFE_HOT 95.0
 #define RAMP_UP 20.0
 #define RAMP_DOWN 3.0
+// Thermal inertia: the curve follows a smoothed core temperature, so a short burst of load
+// (a test run, a build) does not send the fans to full speed while the case is still cold.
+// Rising uses the time constant the app sends; falling is 1.5× slower so fans don't pump.
+// Real heat cuts the delay: ≥ HOT_FAST °C for HOT_FAST_AFTER s → at most HOT_FAST_TAU s.
+// The fail-safe always looks at the raw temperature.
+#define MAX_RESPONSE 300.0
+#define FALL_FACTOR 1.5
+#define HOT_FAST 85.0
+#define HOT_FAST_AFTER 10.0
+#define HOT_FAST_TAU 5.0
 
 static BOOL fake = NO;
 double fakeTemp = NAN;  // --fake only: set by the "fake-temp" command in tests
@@ -233,6 +244,24 @@ static BOOL forceWrite = YES;
 static double now(void);
 static NSString *lastError = nil;
 static NSDictionary *lastState = nil;
+static double response = 0;           // rise time constant, s
+static double smoothT = NAN;          // temperature the curve sees; NaN = start from the raw value
+static double lastSmooth = NAN;       // time of the last smoothing step
+static double hotSince = NAN;         // since when the raw temperature is ≥ HOT_FAST
+
+// One smoothing step (exponential moving average over real elapsed time).
+static double smoothStep(double raw) {
+    double t = now();
+    if (isnan(raw)) return smoothT;
+    if (raw >= HOT_FAST) { if (isnan(hotSince)) hotSince = t; } else hotSince = NAN;
+    if (isnan(smoothT) || isnan(lastSmooth) || response <= 0) { smoothT = raw; lastSmooth = t; return smoothT; }
+    double dt = fmax(0, t - lastSmooth);
+    lastSmooth = t;
+    double tau = raw > smoothT ? response : response * FALL_FACTOR;
+    if (raw > smoothT && !isnan(hotSince) && t - hotSince >= HOT_FAST_AFTER) tau = fmin(tau, HOT_FAST_TAU);
+    smoothT += (raw - smoothT) * (1 - exp(-dt / tau));
+    return smoothT;
+}
 
 static double curvePct(double t) {
     if (t <= pts[0][0]) return pts[0][1];
@@ -265,10 +294,11 @@ static void tick(void) {
     int n = fanCount();
     Fan fans[4];
     for (int i = 0; i < n; i++) fans[i] = fanRead(i);
+    double eff = smoothStep(t.avg);
 
     BOOL control = controller >= 0 && ctlEnabled && npts >= 2 && !lastError && n > 0 && !isnan(t.avg);
     if (control) {
-        double want = curvePct(t.avg);
+        double want = curvePct(eff);
         BOOL wasFailsafe = failsafe;
         failsafe = t.hot >= FAILSAFE_HOT || t.avg >= FAILSAFE_AVG;
         if (failsafe) want = 100;
@@ -303,7 +333,8 @@ static void tick(void) {
                         @"target": jnum(fans[i].target, 1), @"manual": [NSNumber numberWithBool:fans[i].manual]}];
     lastState = @{
         @"version": @HELPER_VERSION, @"mode": mode, @"error": lastError ?: [NSNull null],
-        @"cpu": @{@"avg": jnum(t.avg, 10), @"max": jnum(t.hot, 10), @"sensors": @(t.n)},
+        @"cpu": @{@"avg": jnum(t.avg, 10), @"max": jnum(t.hot, 10), @"sensors": @(t.n), @"effective": jnum(eff, 10)},
+        @"response": @(response),
         @"ssd": jnum(t.ssd, 10), @"battery": jnum(t.battery, 10),
         @"fans": fa, @"pct": jnum(pct, 10), @"applied": jnum(appliedPct, 10), @"fake": @(fake),
         @"failsafe": @{@"avg": @FAILSAFE_AVG, @"hottest": @FAILSAFE_HOT},
@@ -375,6 +406,8 @@ static void handle(int fd, NSData *line) {
     if ([cmd isEqual:@"control"]) {
         NSString *err = setCurve(req[@"points"]);
         if (err) { sendJSON(fd, @{@"ok": @NO, @"error": err}); return; }
+        id r = req[@"response"];
+        response = [r isKindOfClass:NSNumber.class] ? fmax(0, fmin(MAX_RESPONSE, [r doubleValue])) : 0;
         BOOL en = [req[@"enabled"] boolValue];
         if (en && (!ctlEnabled || controller != fd)) lastError = nil;  // (re)enabling retries after an error
         controller = fd; ctlEnabled = en;
@@ -465,7 +498,7 @@ int main(int argc, const char **argv) {
                 @autoreleasepool { tick(); }
                 next = now() + 1.0;
             }
-            if (!nclients) { giveBack(); lastState = nil; next = now(); }
+            if (!nclients) { giveBack(); lastState = nil; smoothT = NAN; hotSince = NAN; next = now(); }
         }
         fansAuto();
     }

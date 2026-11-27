@@ -35,3 +35,7 @@
 "error.badReply" = "Unerwartete Antwort der Lüftersteuerung";
 "a11y.curve" = "Lüfterkurve";
 "curve.failsafe" = "Schutz";
+"menu.response" = "Lüfterreaktion";
+"response.fast" = "Schnell";
+"response.smooth" = "Sanft";
+"response.verySmooth" = "Sehr sanft";

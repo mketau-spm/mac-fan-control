@@ -56,7 +56,7 @@ CURVE = [[40, 0], [60, 50], [80, 100]]
 p, path = start({"FANCURVE_FAKE_TEMP": "50"})
 check("socket is owner-only (0600)", oct(os.stat(path).st_mode & 0o777) == "0o600", oct(os.stat(path).st_mode))
 c = Conn(path)
-check("hello returns version", c.req({"cmd": "hello"}).get("version") == 2)
+check("hello returns version", c.req({"cmd": "hello"}).get("version") == 3)
 s = c.req({"cmd": "state"})
 check("state before control is auto", s["mode"] == "auto", s["mode"])
 check("state has 2 fans", len(s["fans"]) == 2)
@@ -171,6 +171,49 @@ c.req({"cmd": "fake-temp", "value": 40})  # want 0 %: 4 → 1 (held, < 3 s) → 
 time.sleep(2.2)
 s = st()
 check("throttle: reaching the minimum is written without waiting", T(s) == MIN0, T(s))
+c.close(); p.terminate(); p.wait(3)
+
+# --- thermal inertia: the curve follows a smoothed temperature
+SM = [[40, 0], [60, 50], [80, 100]]
+p, path = start()
+c = Conn(path)
+c.req({"cmd": "fake-temp", "value": 40})
+c.req({"cmd": "control", "enabled": True, "points": SM, "response": 0})  # response 0 → follows the raw value at once
+s = c.req({"cmd": "control", "enabled": True, "points": SM, "response": 20})
+check("inertia: starts from the raw temperature", s["cpu"]["effective"] == 40.0 and s["pct"] == 0.0, s["cpu"])
+check("inertia: response is reported", s["response"] == 20, s.get("response"))
+c.req({"cmd": "fake-temp", "value": 80})
+time.sleep(2.2)
+s = c.req({"cmd": "state"})
+check("inertia: short spike barely moves the fans", s["cpu"]["avg"] == 80.0 and s["cpu"]["effective"] < 50 and s["pct"] < 25,
+      (s["cpu"], s["pct"]))
+s = c.req({"cmd": "control", "enabled": True, "points": SM, "response": 2})  # same session: no reset
+check("inertia: a new response keeps the smoothed value", s["cpu"]["effective"] < 50, s["cpu"])
+time.sleep(8.2)
+s = c.req({"cmd": "state"})
+check("inertia: long load reaches the curve", s["cpu"]["effective"] > 78 and s["pct"] > 90, (s["cpu"], s["pct"]))
+c.req({"cmd": "control", "enabled": True, "points": SM, "response": 4})  # falling: 6 s
+c.req({"cmd": "fake-temp", "value": 40})
+time.sleep(1.2)
+s = c.req({"cmd": "state"})
+check("inertia: cooling is followed more slowly than heating", s["cpu"]["effective"] > 60, s["cpu"])
+c.close(); p.terminate(); p.wait(3)
+
+p, path = start()
+c = Conn(path)
+c.req({"cmd": "fake-temp", "value": 40})
+c.req({"cmd": "control", "enabled": True, "points": SM, "response": 0})
+c.req({"cmd": "control", "enabled": True, "points": SM, "response": 300})
+c.req({"cmd": "fake-temp", "value": 88})
+time.sleep(3.2)
+s = c.req({"cmd": "state"})
+check("inertia: slow response holds the fans at first", s["cpu"]["effective"] < 45, s["cpu"])
+time.sleep(10.5)
+s = c.req({"cmd": "state"})
+check("inertia: ≥ 85 °C for 10 s speeds the response up", s["cpu"]["effective"] > 55, s["cpu"])
+c.req({"cmd": "fake-temp", "value": 92})
+s = c.req({"cmd": "control", "enabled": True, "points": SM, "response": 300})
+check("inertia: fail-safe uses the raw temperature", s["mode"] == "failsafe" and s["pct"] == 100.0, (s["mode"], s["cpu"]))
 c.close(); p.terminate(); p.wait(3)
 
 print(f"\n{failures} failure(s)")

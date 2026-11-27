@@ -1,7 +1,10 @@
 import Foundation
 
 struct HelperState: Decodable, Equatable {
-    struct CPU: Decodable, Equatable { var avg: Double?; var max: Double?; var sensors: Int }
+    struct CPU: Decodable, Equatable {
+        var avg: Double?; var max: Double?; var sensors: Int
+        var effective: Double?  // smoothed temperature the curve follows (thermal inertia)
+    }
     struct Fan: Decodable, Equatable { var actual: Double?; var min: Double?; var max: Double?; var target: Double?; var manual: Bool }
     struct Failsafe: Decodable, Equatable { var avg: Double; var hottest: Double }
 
@@ -21,7 +24,7 @@ struct HelperState: Decodable, Equatable {
 /// Talks to fancurved over its Unix socket. All calls block. AppModel only ever touches it
 /// from its own serial queue, which is what makes the unchecked Sendable safe.
 final class HelperClient: @unchecked Sendable {
-    static let expectedVersion = 2
+    static let expectedVersion = 3
     let path: String
     private var fd: Int32 = -1
     private var buffer = Data()
@@ -98,8 +101,9 @@ final class HelperClient: @unchecked Sendable {
     }
 
     /// Returns the new state, or an error message from the helper.
-    func control(enabled: Bool, points: [CurvePoint]) -> Result<HelperState, HelperError> {
-        let body: [String: Any] = ["cmd": "control", "enabled": enabled, "points": points.map { [$0.temp, $0.pct] }]
+    func control(enabled: Bool, points: [CurvePoint], response: Double) -> Result<HelperState, HelperError> {
+        let body: [String: Any] = ["cmd": "control", "enabled": enabled, "points": points.map { [$0.temp, $0.pct] },
+                                   "response": response]
         guard let d = request(body) else { return .failure(HelperError(L("error.noResponse"))) }
         if let s = try? JSONDecoder().decode(HelperState.self, from: d) { return .success(s) }
         let j = try? JSONSerialization.jsonObject(with: d) as? [String: Any]

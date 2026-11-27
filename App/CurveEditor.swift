@@ -4,7 +4,10 @@ import SwiftUI
 /// Drag a point to move it, double-click empty space to add one, double-click a point to remove it.
 struct CurveEditor: View {
     @Binding var points: [CurvePoint]
+    /// Temperature the fans follow now (smoothed); drawn as the red dot on the curve.
     var currentTemp: Double?
+    /// Real core temperature; a faint line when it is away from `currentTemp`.
+    var rawTemp: Double?
     var failsafeTemp: Double = 90
     var compact = false
 
@@ -102,6 +105,11 @@ struct CurveEditor: View {
                                              startPoint: CGPoint(x: 0, y: r.minY), endPoint: CGPoint(x: 0, y: r.maxY)))
         ctx.stroke(line, with: .color(.accentColor), style: StrokeStyle(lineWidth: 2.5, lineCap: .round, lineJoin: .round))
 
+        if let raw = rawTemp, let t = currentTemp, abs(raw - t) >= 1 {
+            let rt = min(max(raw, range.lowerBound), range.upperBound)
+            var v = Path(); v.move(to: CGPoint(x: x(rt, r), y: r.minY)); v.addLine(to: CGPoint(x: x(rt, r), y: r.maxY))
+            ctx.stroke(v, with: .color(.red.opacity(0.22)), style: StrokeStyle(lineWidth: 1, dash: [2, 3]))
+        }
         if let t = currentTemp {
             let ct = min(max(t, range.lowerBound), range.upperBound)
             var v = Path(); v.move(to: CGPoint(x: x(ct, r), y: r.minY)); v.addLine(to: CGPoint(x: x(ct, r), y: r.maxY))

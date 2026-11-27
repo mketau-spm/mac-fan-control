@@ -9,7 +9,10 @@ It reads the average temperature of all CPU cores and sets the fan speed from th
 - **Drag the curve.** Double-click empty space to add a point, double-click a point to remove it.
 - **Profiles.** Quiet, Balanced, Cool, Cold and Very Cold, plus your own: edit any curve and press ✓
   to save it; rename or delete your own profiles from the ⚙︎ menu.
-- **⚙︎ menu.** Show or hide the temperature next to the menu bar icon, open at login, quit.
+- **Thermal inertia.** A short burst of load (a test run, a build) heats the chip in a second,
+  but the case stays cold. The curve follows a smoothed temperature, so the fans speed up over
+  about a minute instead of jumping to full speed. See [Fan response](#fan-response).
+- **⚙︎ menu.** Fan response, show or hide the temperature next to the menu bar icon, open at login, quit.
 - **Safe by default.** See [Safety](#safety).
 - **15 languages**, chosen from your system language: English, Chinese (Simplified), Hindi, Spanish,
   French, Arabic, Bengali, Portuguese, Russian, Urdu, Indonesian, German, Japanese, Turkish, Korean.
@@ -46,10 +49,25 @@ macOS asks for your password once to install the helper that talks to the fans.
 The helper only drives the fans **while the app is connected**. With no app connected it sleeps
 and leaves the fans to macOS.
 
+## Fan response
+
+The curve does not use the raw core temperature. It uses a smoothed one (an exponential moving
+average): the red dot on the chart, while a faint dashed line shows the real temperature.
+
+| Setting | Heating time constant | 30 s of 40 → 85 °C load reaches |
+|---|---|---|
+| Fast | 10 s | ≈ 83 °C |
+| Smooth (default) | 45 s | ≈ 62 °C |
+| Very Smooth | 90 s | ≈ 53 °C |
+
+Cooling is followed 1.5× more slowly, so the fans don't pump when the load comes in bursts.
+If the cores stay at 85 °C or more for 10 s, the time constant drops to 5 s.
+
 ## Safety
 
 - Fan speed always stays between Apple's minimum and maximum for each fan.
 - Average core temperature ≥ 90 °C or any core ≥ 95 °C → fans go to 100 % at once.
+  This uses the real temperature, never the smoothed one.
 - The curve can never go down: hotter never means slower.
 - Speed changes are smoothed: up to +20 %/s, down to −3 %/s.
 - New targets are written at most every 3 s and only when they change by ≥ 3 %.

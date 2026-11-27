@@ -35,3 +35,7 @@
 "error.badReply" = "Réponse inattendue du contrôle des ventilateurs";
 "a11y.curve" = "Courbe des ventilateurs";
 "curve.failsafe" = "sécurité";
+"menu.response" = "Réactivité du ventilateur";
+"response.fast" = "Rapide";
+"response.smooth" = "Douce";
+"response.verySmooth" = "Très douce";

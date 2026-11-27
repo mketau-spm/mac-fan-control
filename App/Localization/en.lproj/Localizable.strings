@@ -35,3 +35,7 @@
 "error.badReply" = "Unexpected reply from fan control";
 "a11y.curve" = "Fan curve";
 "curve.failsafe" = "safety";
+"menu.response" = "Fan Response";
+"response.fast" = "Fast";
+"response.smooth" = "Smooth";
+"response.verySmooth" = "Very Smooth";

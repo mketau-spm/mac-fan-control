@@ -35,3 +35,7 @@
 "error.badReply" = "Fan denetiminden beklenmeyen yanıt";
 "a11y.curve" = "Fan eğrisi";
 "curve.failsafe" = "koruma";
+"menu.response" = "Fan tepkisi";
+"response.fast" = "Hızlı";
+"response.smooth" = "Yumuşak";
+"response.verySmooth" = "Çok yumuşak";

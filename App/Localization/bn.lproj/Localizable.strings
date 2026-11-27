@@ -35,3 +35,7 @@
 "error.badReply" = "ফ্যান নিয়ন্ত্রণ থেকে অপ্রত্যাশিত উত্তর";
 "a11y.curve" = "ফ্যান কার্ভ";
 "curve.failsafe" = "সুরক্ষা";
+"menu.response" = "ফ্যানের সাড়া";
+"response.fast" = "দ্রুত";
+"response.smooth" = "মসৃণ";
+"response.verySmooth" = "খুব মসৃণ";

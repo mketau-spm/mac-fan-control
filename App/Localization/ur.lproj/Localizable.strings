@@ -35,3 +35,7 @@
 "error.badReply" = "پنکھوں کے کنٹرول سے غیر متوقع جواب";
 "a11y.curve" = "پنکھوں کا کرو";
 "curve.failsafe" = "تحفظ";
+"menu.response" = "پنکھے کا ردِعمل";
+"response.fast" = "تیز";
+"response.smooth" = "ہموار";
+"response.verySmooth" = "بہت ہموار";

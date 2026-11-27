@@ -35,3 +35,7 @@
 "error.badReply" = "ファン制御から予期しない応答がありました";
 "a11y.curve" = "ファンカーブ";
 "curve.failsafe" = "保護";
+"menu.response" = "ファンの反応";
+"response.fast" = "速い";
+"response.smooth" = "なめらか";
+"response.verySmooth" = "とてもなめらか";

@@ -35,3 +35,7 @@
 "error.badReply" = "Resposta inesperada do controle das ventoinhas";
 "a11y.curve" = "Curva das ventoinhas";
 "curve.failsafe" = "proteção";
+"menu.response" = "Resposta da ventoinha";
+"response.fast" = "Rápida";
+"response.smooth" = "Suave";
+"response.verySmooth" = "Muito suave";

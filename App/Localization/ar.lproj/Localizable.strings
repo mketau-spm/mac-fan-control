@@ -35,3 +35,7 @@
 "error.badReply" = "رد غير متوقع من التحكم في المراوح";
 "a11y.curve" = "منحنى المراوح";
 "curve.failsafe" = "حماية";
+"menu.response" = "استجابة المروحة";
+"response.fast" = "سريعة";
+"response.smooth" = "سلسة";
+"response.verySmooth" = "سلسة جدًا";

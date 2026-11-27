@@ -35,3 +35,7 @@
 "error.badReply" = "Неожиданный ответ управления вентиляторами";
 "a11y.curve" = "Кривая вентиляторов";
 "curve.failsafe" = "защита";
+"menu.response" = "Реакция вентиляторов";
+"response.fast" = "Быстрая";
+"response.smooth" = "Плавная";
+"response.verySmooth" = "Очень плавная";

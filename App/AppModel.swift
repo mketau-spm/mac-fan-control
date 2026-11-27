@@ -21,10 +21,21 @@ final class AppModel: ObservableObject {
         didSet { defaults.set(enabled, forKey: Keys.enabled); needsPush = true; kick() }
     }
 
+    /// How fast the curve follows the core temperature (thermal inertia in the helper).
+    enum Response: String, CaseIterable, Identifiable {
+        case fast, smooth, verySmooth
+        var id: String { rawValue }
+        var seconds: Double { switch self { case .fast: 10; case .smooth: 45; case .verySmooth: 90 } }
+        var title: String { switch self { case .fast: L("response.fast"); case .smooth: L("response.smooth"); case .verySmooth: L("response.verySmooth") } }
+    }
+    @Published var response: Response {
+        didSet { defaults.set(response.rawValue, forKey: Keys.response); needsPush = true; kick() }
+    }
+
     /// Show the average temperature next to the fan icon in the menu bar.
     @Published var showMenuTemp: Bool { didSet { defaults.set(showMenuTemp, forKey: Keys.showTemp) } }
 
-    private enum Keys { static let selected = "selectedProfile", enabled = "controlEnabled", showTemp = "showMenuTemp" }
+    private enum Keys { static let selected = "selectedProfile", enabled = "controlEnabled", showTemp = "showMenuTemp", response = "response" }
     private let defaults: UserDefaults
     private let store: ProfileStore
     private let client: HelperClient
@@ -48,6 +59,7 @@ final class AppModel: ObservableObject {
         // bool(forKey:) also understands "YES"/"NO" passed as launch arguments; missing key → true.
         self.enabled = defaults.object(forKey: Keys.enabled) == nil || defaults.bool(forKey: Keys.enabled)
         self.showMenuTemp = defaults.object(forKey: Keys.showTemp) == nil || defaults.bool(forKey: Keys.showTemp)
+        self.response = defaults.string(forKey: Keys.response).flatMap(Response.init) ?? .smooth
         if autostart { start() }
     }
 
@@ -57,6 +69,8 @@ final class AppModel: ObservableObject {
     var selected: Profile { allProfiles.first { $0.id == selectedID } ?? Profile.presets[1] }
     var isDirty: Bool { draft != selected.points }
     var avgTemp: Double? { state?.cpu.avg }
+    /// The smoothed temperature the fans follow; the raw one when the helper does not report it.
+    var curveTemp: Double? { state?.cpu.effective ?? avgTemp }
     /// Mean of all fans, rounded to tens (2541 → 2540), passed through `rpmFilter`:
     /// it changes at most every 3 s and only by ≥ 3 %.
     @Published private(set) var avgRPM: Int?
@@ -96,7 +110,7 @@ final class AppModel: ObservableObject {
     func tick() {
         guard !busy else { return }
         busy = true
-        let current = (enabled, draft)
+        let current = (enabled, draft, response.seconds)
         let wantPush = needsPush
         needsPush = false
         let client = self.client
@@ -121,7 +135,7 @@ final class AppModel: ObservableObject {
             let push = client.isConnected && (wantPush || connectedNow)
             if client.isConnected {
                 if push {
-                    switch client.control(enabled: current.0, points: current.1) {
+                    switch client.control(enabled: current.0, points: current.1, response: current.2) {
                     case .success(let s): newState = s
                     case .failure(let e): rejection = e.message; pushFailed = !client.isConnected
                     }
